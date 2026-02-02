@@ -604,7 +604,7 @@
           
           $this->definition_db->startTransaction();
           $this->definition_db->executeStoredProcedure(
-          $this->getDBObject($this->definition_db, "sp.component_type_properties_insert"),
+            $this->getDBObject($this->definition_db, "sp.component_type_properties_insert"),
             $boundVariables,
             $resultArray2,
             true
