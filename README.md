@@ -1,4 +1,4 @@
-# Tholos Application Builder
+# Tholos Component Editor
 
 ## GitHub repository
 https://github.com/offsite-solutions/TholosEditor
