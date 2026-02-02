@@ -1,0 +1,21 @@
+<tr>
+  <td>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_eqs
+param=sqlancestor_id
+value=
+true=<a href="javascript:editEvent($p_component_type_id,$sqlid);">$sqlname</a>
+false=$sqlname
+%FUNC%>
+    [%_function_name=TholosEditor\TholosEditorCallback::_eq;param=sqlancestor_id;value=;true=;false=tholoseditor/rightframe.event.ancestor%]
+  </td>
+  <td class="text-right" nowrap>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_eqs
+param=sqlancestor_id
+value=
+false=&nbsp;
+true=<button class="btn btn-default btn-xs" onclick="removeEvent($p_component_type_id,$sqllink_id);" title="Remove"><i class="fa-regular fa-trash"></i></button>
+%FUNC%>
+  </td>
+</tr>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tholos Component Type Editor</title>
+    <link rel="shortcut icon" href="$TholosEditorAssetsDir/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="$TholosEditorVendorDir/bower-asset/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="$TholosEditorVendorDir/bower-asset/jquery-ui/themes/base/jquery-ui.min.css"/>
+  <link rel="stylesheet" href="$TholosEditorVendorDir/bower-asset/jstree/dist/themes/default/style.min.css"/>
+  <link rel="stylesheet" href="$TholosEditorVendorDir/bower-asset/toastr/toastr.min.css"/>
+  <link rel="stylesheet" href="$TholosEditorAssetsDir/css/TholosBuilder.css"/>
+  </head>
+  <body>
+    <div id="wrapper" class="container-fluid">
+      <div id="container">
+          <div id="left_frame" class="resizable"><div class="content"></div></div>
+          <div id="right_frame" class="resizable"><div class="content"></div></div>
+      </div>
+    </div>
+
+	<script type="text/javascript">var __editorURL='$tholos_builderURL';</script>
+
+    <script src="$TholosEditorVendorDir/bower-asset/jquery/dist/jquery.min.js"></script>
+    <script src="$TholosEditorVendorDir/bower-asset/jquery-ui/jquery-ui.min.js"></script>
+    <script src="$TholosEditorVendorDir/bower-asset/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="$TholosEditorAssetsDir/js/fontawesome/fontawesome.min.js"></script>
+    <script defer src="$TholosEditorAssetsDir/js/fontawesome/regular.min.js"></script>
+    <script defer src="$TholosEditorAssetsDir/js/fontawesome/brands.min.js"></script>
+    <script src="$TholosEditorVendorDir/bower-asset/jstree/dist/jstree.min.js"></script>
+    <script src="$TholosEditorVendorDir/bower-asset/bootbox/dist/bootbox.min.js"></script>
+    <script src="$TholosEditorVendorDir/bower-asset/toastr/toastr.min.js"></script>
+
+    <script src="$TholosEditorAssetsDir/js/TholosEditor.js"></script>
+
+  </body>
+</html>

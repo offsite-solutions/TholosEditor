@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form class="form-horizontal" method="post" role="form" onsubmit="return false;" id="form_$p_id">
+<!-- common fields start -->
+<input type="hidden" name="action" value="updateComponentType">
+<input type="hidden" name="p_id" value="$p_id">
+<input type="hidden" name="p_ancestor_id" value="$p_ancestor_id">
+<input type="hidden" name="p_version" value="$p_version">
+<input type="hidden" name="p_enabled" value="$p_enabled">
+<!-- common fields end -->
+
+<div class="form-group">
+  <div class="col-sm-3 text-right"><strong>Inherited from</strong></div>
+  <div class="col-sm-9">
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.text;
+SQL=
+select class_name as text
+  from tholos.def_component_types ct
+ where ct.id=$p_ancestor_id~='-1';
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.text;
+SQL=
+select class_name as text
+  from def.component_types ct
+ where ct.id=$p_ancestor_id~='-1';
+%SQL%>
+<<
+%FUNC%>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="p_class_name" class="col-sm-3 control-label no-padding-right">Class name</label>
+  <div class="col-sm-9">
+    <input class="form-control" name="p_class_name" id="p_class_name" value="$p_class_name">
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="p_parent_component_type_id" class="col-sm-3 control-label no-padding-right">Parent must be</label>
+  <div class="col-sm-9">
+    <select class="form-control" name="p_parent_component_type_id" id="p_parent_component_type_id">
+<option value=""></option>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+select ct.id,lpad(ct.class_name,length(ct.class_name)+(level-1)*4,'-') as text,
+       case when id=$p_parent_component_type_id~='-1' then 'selected' else '' end as selected
+  from tholos.def_component_types ct
+  connect by prior ct.id = ct.ancestor_id
+  start with ct.ancestor_id is null
+  order siblings by class_name
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+with recursive ctx(hierarchy, id, ancestor_id, class_name, level) as (
+SELECT ARRAY[id] AS hierarchy,
+       id,
+       ancestor_id,
+       class_name,
+       1 as level
+  FROM def.component_types ct
+ WHERE ct.enabled='Y'
+       and ct.ancestor_id is null
+UNION ALL
+SELECT ctx.hierarchy || ct2.id,
+       ct2.id,
+       ct2.ancestor_id,
+       ct2.class_name,
+       ctx.level+1 as level
+  FROM def.component_types ct2, ctx
+  where ct2.enabled='Y'
+        and ct2.ancestor_id=ctx.id
+)
+ select id, lpad(ctx.class_name,length(ctx.class_name)+(ctx.level-1)*4,'-') as text,
+        case when id=$p_parent_component_type_id~='-1' then 'selected' else '' end as selected
+   from ctx
+  order by hierarchy
+%SQL%>
+<<
+%FUNC%>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="p_description" class="col-sm-3 control-label no-padding-right">Description</label>
+  <div class="col-sm-9">
+    <textarea class="form-control" name="p_description" id="p_description" rows="10">$p_description</textarea>
+  </div>
+</div>
+
+      <hr>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <button class="btn btn-primary" onclick="doUpdateComponentType($p_id,$('#tab_$p_id #p_class_name').val());">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

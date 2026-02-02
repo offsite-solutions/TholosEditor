@@ -1,0 +1,383 @@
+<div class="row componentData_container">
+  <div class="col-xs-4" style="height: 100%; overflow: auto;">
+    <div class="row">
+      <div class="col-xs-10">
+        <select id="newPropertyID" class="form-control input-sm" style="width: 100%;">
+          <option value="">* New</option>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+select p.id,
+       p.name||' : '||
+       case when p.type='COMPONENT' then ct.class_name else p.type end as text
+  from def_properties p
+       left outer join def_component_types ct on ct.id=p.component_type_id
+ where p.id not in (select distinct id
+                      from tholos.def_component_type_prop_v
+                     where root_component_id=$p_component_type_id~='-1';)
+       and p.enabled='Y'
+ order by p.name
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+select p.id,
+       p.name||' : '||
+       case when p.type='COMPONENT' then ct.class_name else p.type end as text
+  from def.properties p
+       left outer join def.component_types ct on ct.id=p.component_type_id
+ where p.id not in (select distinct id
+                      from def.component_type_prop_v
+                     where root_component_id=$p_component_type_id~='-1';)
+       and p.enabled='Y'
+ order by p.name
+%SQL%>
+<<
+%FUNC%>
+        </select>
+      </div>
+      <div class="col-xs-2">
+        <button class="btn btn-default btn-sm pull-right" onclick="if ($('#tab_$p_component_type_id #newPropertyID').val()=='') addNewProperty($p_component_type_id); else addProperty($p_component_type_id,$('#tab_$p_component_type_id #newPropertyID').val());" title="Add new property"><i class="fa-regular fa-plus-square"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-12">
+        <p class="title">Properties</p>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th style="width: 5%;">&nbsp;</th>
+              <th style="width: 50%;">Name</th>
+              <th style="width: 40%;">Type</th>
+              <th style="width: 5%;">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.property.item;
+SQL=
+select id,name,type,type_desc,component_type_id,
+       component_type_name,ancestor_class_name,ancestor_id,root_component_id,link_id,
+       def_link_id, default_value, mandatory, disabled, runtime, nodata
+  from def_component_type_prop_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+ order by 2
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.property.item;
+SQL=
+select id,name,type,type_desc,component_type_id,
+       component_type_name,ancestor_class_name,ancestor_id,root_component_id,link_id,
+       def_link_id, default_value, mandatory, disabled, runtime, nodata
+  from def.component_type_prop_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+ order by 2
+%SQL%>
+<<
+%FUNC%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-2" style="height: 100%; overflow: auto;">
+    <div class="row">
+      <div class="col-xs-10">
+        <select id="newEventID" class="form-control input-sm" style="width: 100%;">
+          <option value="">* New</option>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+select e.id,
+       e.name||' : '||e.type as text
+  from def_events e
+ where e.id not in (select distinct id
+                      from def_component_type_event_v
+                     where root_component_id=$p_component_type_id)
+       and e.enabled='Y'
+ order by e.name
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+select e.id,
+       e.name||' : '||e.type as text
+  from def.events e
+ where e.id not in (select distinct id
+                      from def.component_type_event_v
+                     where root_component_id=$p_component_type_id)
+       and e.enabled='Y'
+ order by e.name
+%SQL%>
+<<
+%FUNC%>
+        </select>
+      </div>
+      <div class="col-xs-2">
+        <button class="btn btn-default btn-sm pull-right" onclick="if ($('#tab_$p_component_type_id #newEventID').val()=='') addNewEvent($p_component_type_id); else addEvent($p_component_type_id,$('#tab_$p_component_type_id #newEventID').val());" title="Add new event"><i class="fa-regular fa-plus-square"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-12">
+        <p class="title">PHP events</p>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th style="width: 80%;">Name</th>
+              <th style="width: 20%;">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.event.item;
+SQL=
+select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def_component_type_event_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+       and type='PHP'
+ order by 2
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.event.item;
+SQL=
+select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def.component_type_event_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+       and type='PHP'
+ order by 2
+%SQL%>
+<<
+%FUNC%>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-xs-12">
+        <p class="title">Database events</p>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th style="width: 80%;">Name</th>
+              <th style="width: 20%;">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.event.item;
+SQL=
+select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def_component_type_event_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+       and type='DB'
+ order by 2
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.event.item;
+SQL=
+select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def.component_type_event_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+       and type='DB'
+ order by 2
+%SQL%>
+<<
+%FUNC%>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-xs-12">
+        <p class="title">GUI events</p>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th style="width: 80%;">Name</th>
+              <th style="width: 20%;">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.event.item;
+SQL=
+select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def_component_type_event_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+       and type='GUI'
+ order by 2
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.event.item;
+SQL=
+select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def.component_type_event_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+       and type='GUI'
+ order by 2
+%SQL%>
+<<
+%FUNC%>
+          </tbody>
+        </table>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <div class="col-xs-2" style="height: 100%; overflow: auto;">
+    <div class="row">
+      <div class="col-xs-10">
+        <select id="newMethodID" class="form-control input-sm" style="width: 100%;">
+          <option value="">* New</option>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+select m.id,
+       m.name as text
+  from def_methods m
+ where m.id not in (select distinct id
+                      from def_component_type_method_v
+                     where root_component_id=$p_component_type_id)
+       and m.enabled='Y'
+ order by m.name
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/sqls.select;
+SQL=
+select m.id,
+       m.name as text
+  from def.methods m
+ where m.id not in (select distinct id
+                      from def.component_type_method_v
+                     where root_component_id=$p_component_type_id)
+       and m.enabled='Y'
+ order by m.name
+%SQL%>
+<<
+%FUNC%>
+        </select>
+      </div>
+      <div class="col-xs-2">
+        <button class="btn btn-default btn-sm pull-right" onclick="if ($('#tab_$p_component_type_id #newMethodID').val()=='') addNewMethod($p_component_type_id); else addMethod($p_component_type_id,$('#tab_$p_component_type_id #newMethodID').val());" title="Add new method"><i class="fa-regular fa-plus-square"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-12">
+        <p class="title">Methods</p>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th style="width: 80%;">Name</th>
+              <th style="width: 20%;">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+<%FUNC%
+_function_name=TholosEditor\TholosEditorCallback::_cases
+param=DBSyntax
+oci8>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.method.item;
+SQL=
+select id,name,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def_component_type_method_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+ order by 2
+%SQL%>
+<<
+pgsql>>=
+<%SQL%
+DB=Tholos.DefinitionDBIndex;
+ROW=tholoseditor/rightframe.method.item;
+SQL=
+select id,name,ancestor_class_name,ancestor_id,root_component_id,link_id
+  from def.component_type_method_v ctp
+ where ctp.root_component_id=$p_component_type_id~='-1';
+ order by 2
+%SQL%>
+<<
+%FUNC%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="col-xs-4">
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-default btn-sm pull-right" onclick="openComponentType($p_component_type_id,'');" title="Refresh"><i class="fa-regular fa-refresh"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-12">
+        <p class="title">Editor</p>
+        <div class="componentTypeEditor_container">
+$templateabs_tholoseditor__rightframe_form_componenttype
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

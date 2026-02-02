@@ -1,0 +1,210 @@
+html,body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    overflow: hidden;
+}
+
+html,body,td,th {
+  font-size: 9pt;
+}
+
+#wrapper {
+  height: 100%; 
+  margin: 0px; 
+  padding: 0px;
+  position: absolute;
+  width: 100%;
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+}
+
+#left_frame {
+  width: 20%;
+}
+
+#right_frame {
+  width: 80%;
+}
+
+.resizable {
+  height: 100%;
+  padding: 0px;
+  display: inline-block;
+  float:left;
+}
+
+#left_frame .content, #right_frame .content{
+  padding: 0px;
+  height: 100%;
+  overflow: auto;
+}
+
+#left_frame .content {
+  overflow-x: hidden;
+}
+
+#right_frame .content {
+  padding-left: 3px;
+}
+
+.ui-resizable-e { 
+  cursor: ew-resize; 
+  width: 3px; 
+  right: -3px; 
+  top: 0; 
+  bottom: 0; 
+  background-color: #c0d7e8;
+}
+
+/* left frame */
+
+#portalinfo_container { position:absolute; width: 100%; }
+#portalinfo_container .logo { background-color: #3d6c91; color: #fff; font-size: 14pt; padding-left: 5px; }
+#portalinfo_container .portal-info { background-color: #8cb0cb; color: #fff; font-size: 10px; padding-left: 5px; }
+
+#options_container { margin-bottom: 0px; position:absolute; top: 55px; }
+
+/* template tree */
+
+#component_tree_container { position: absolute; top: 100px; height: calc(100% - 100px); width: 100%; padding: 0px; background-color: #fff;}
+#components { height: 100%; width: 100%; overflow: auto; padding: 0px; }
+
+#component_tree { height: 100%; width: 100%; overflow: auto; padding-left: 0px;}
+#component_tree .folder { background:url('/tholos_builder/images/file_sprite.png') right bottom no-repeat; }
+#component_tree .file { background:url('/tholos_builder/images/file_sprite.png') 0 0 no-repeat; }
+
+#search_result_tree { height: 100%; width: 100%; overflow: auto; padding-left: 0px;}
+#search_result_tree .folder { background:url('/tholos_builder/images/file_sprite.png') right bottom no-repeat; }
+#search_result_tree .file { background:url('/tholos_builder/images/file_sprite.png') 0 0 no-repeat; }
+
+.nav-tabs > li > a {
+  padding: 5px;
+  font-size: 12px;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+    color: #fff;
+    background-color: #8cb0cb;  
+}
+
+#componentTabs_container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.tab-content {
+  height: calc(100% - 30px);
+}
+
+.tab-pane {
+  height: 100%;
+}
+
+.componentData_container {
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.componentData_container > div {
+  border-right: 1px solid #eee;
+  height: 100%;
+}
+
+p.title {
+  font-weight: bold;
+  background-color: #bbb;
+  color: #fff;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.ancestor {
+  font-size: 9px;
+}
+
+div.checkbox {
+  margin: 0px;
+}
+
+tr.prop_disabled td {
+  background-color: #888;
+  color: #ccc;
+}
+
+a.propdef {
+  color: #000;
+  font-weight: normal;
+}
+
+tr.prop_disabled a.propdef {
+  color: #ccc;
+}
+
+td.prop_mandatory {
+  font-weight: bold;
+}
+
+/* icon colors */
+.color-grey {
+  color: #c8c8c8;
+}
+
+.color-green {
+  color: green;
+}
+
+.color-lightgreen {
+  color: limegreen;
+}
+
+.color-green3 {
+  color: mediumseagreen;
+}
+
+.color-blue {
+  color: dodgerblue;
+}
+
+.color-lightblue {
+  color: deepskyblue;
+}
+
+.color-maroon {
+  color: maroon;
+}
+
+.color-purple {
+  color: purple;
+}
+
+.color-purple2 {
+  color: mediumpurple;
+}
+
+.color-brown {
+  color: sandybrown;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-control {
+  color: #ca7841;
+}
+
+.color-grid {
+  color: goldenrod;
+}
+
+.color-gridcolumn {
+  color: darkgoldenrod;
+}

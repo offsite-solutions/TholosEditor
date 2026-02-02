@@ -1,0 +1,9 @@
+<div id="componentTabs_container" >
+  <ul id="editortabs" class="nav nav-tabs" data-tabs="tabs">
+    
+  </ul>
+
+  <div class="tab-content">
+    
+  </div>
+</div>
