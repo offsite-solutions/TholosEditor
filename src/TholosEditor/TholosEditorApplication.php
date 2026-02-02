@@ -16,7 +16,6 @@
   use JetBrains\PhpStorm\NoReturn;
   use JsonException;
   use RuntimeException;
-  use TholosEditorCallback;
   use Throwable;
   
   class TholosEditorApplication extends Singleton {
