@@ -154,7 +154,7 @@
       
       // connect to db
       
-      $this->definition_db->connect('Database');
+      $this->definition_db->connect('Database1');
       
       // session initialization
       
