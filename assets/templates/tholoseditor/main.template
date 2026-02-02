@@ -36,6 +36,8 @@
 <script src="$TholosEditorVendorDir/bower-asset/bootbox/dist/bootbox.min.js"></script>
 <script src="$TholosEditorVendorDir/bower-asset/toastr/toastr.min.js"></script>
 
+<script defer src="$TholosEditorAssetsDir/js/dynamic-tabs.js"></script>
+
 <script src="$TholosEditorAssetsDir/js/TholosEditor.js"></script>
 
 </body>

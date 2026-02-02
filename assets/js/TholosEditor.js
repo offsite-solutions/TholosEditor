@@ -17,7 +17,7 @@ function refreshLeftFrame() {
     data: 'action=getLeftFrame',
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#left_frame').find('.content').html(data.html);
         loadComponentTree(true, '#component_tree', '');
       } else {
@@ -39,7 +39,7 @@ function initRightFrame() {
     data: 'action=initRightFrame',
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#right_frame').find('.content').html(data.html);
         initEditorTabs();
       } else {
@@ -61,7 +61,7 @@ function deleteComponentType(id_, version_) {
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     id_: id_,
     success: function (data) {
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         // delete tab if exists
         tabs = $("#editortabs");
         try {
@@ -94,7 +94,7 @@ function doUpdateComponentType(id_, name_) {
     data: $('#form_' + id_).serialize(),
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         loadComponentTree(true, '#component_tree', '');
         openComponentType(id_, name_);
       } else {
@@ -116,7 +116,7 @@ function doCreateComponentType(ancestor_id_, class_name_) {
     data: 'action=createComponentType&p_ancestor_id=' + ancestor_id_ + '&p_class_name=' + class_name_,
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         loadComponentTree(true, '#component_tree', '');
       } else {
         bootbox.alert(data.errormsg);
@@ -154,7 +154,7 @@ function loadComponentTree(full, treeid_, searchtext_) {
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $(treeid_).jstree("destroy");
         $(treeid_).jstree(
           {
@@ -442,7 +442,7 @@ function openComponentType(id_, name_) {
     name_: name_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         tabs = $("#editortabs");
         tab = $('#editortabs a[href="#tab_' + id_ + '"]').length;
         if (tab > 0) { // mar van ilyen
@@ -484,7 +484,7 @@ function removeProperty(component_type_id_, id_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -508,7 +508,7 @@ function addProperty(component_type_id_, id_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -531,7 +531,7 @@ function addNewProperty(component_type_id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#tab_' + component_type_id_ + ' .componentTypeEditor_container').html(data.html);
       } else {
         bootbox.alert(data.errormsg);
@@ -554,7 +554,7 @@ function editProperty(component_type_id_, id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#tab_' + component_type_id_ + ' .componentTypeEditor_container').html(data.html);
       } else {
         bootbox.alert(data.errormsg);
@@ -577,7 +577,7 @@ function saveProperty(component_type_id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -603,7 +603,7 @@ function disableProperty(component_type_id_, id_, disabled_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -627,7 +627,7 @@ function mandatoryProperty(component_type_id_, id_, mandatory_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -651,7 +651,7 @@ function runtimeProperty(component_type_id_, id_, runtime_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -675,7 +675,7 @@ function nodataProperty(component_type_id_, id_, nodata_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -711,7 +711,7 @@ function defaultValueProperty_(component_type_id_, id_, default_value_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -737,7 +737,7 @@ function removeEvent(component_type_id_, id_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -761,7 +761,7 @@ function addEvent(component_type_id_, id_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -784,7 +784,7 @@ function addNewEvent(component_type_id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#tab_' + component_type_id_ + ' .componentTypeEditor_container').html(data.html);
       } else {
         bootbox.alert(data.errormsg);
@@ -807,7 +807,7 @@ function editEvent(component_type_id_, id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#tab_' + component_type_id_ + ' .componentTypeEditor_container').html(data.html);
       } else {
         bootbox.alert(data.errormsg);
@@ -830,7 +830,7 @@ function saveEvent(component_type_id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -856,7 +856,7 @@ function removeMethod(component_type_id_, id_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -880,7 +880,7 @@ function addMethod(component_type_id_, id_) {
     id_: id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -903,7 +903,7 @@ function addNewMethod(component_type_id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#tab_' + component_type_id_ + ' .componentTypeEditor_container').html(data.html);
       } else {
         bootbox.alert(data.errormsg);
@@ -926,7 +926,7 @@ function editMethod(component_type_id_, id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         $('#tab_' + component_type_id_ + ' .componentTypeEditor_container').html(data.html);
       } else {
         bootbox.alert(data.errormsg);
@@ -949,7 +949,7 @@ function saveMethod(component_type_id_) {
     component_type_id_: component_type_id_,
     success: function (data) {
       finishedLoading();
-      if (data.success == 'OK') {
+      if (data.success === 'OK') {
         openComponentType(component_type_id_, '');
       } else {
         bootbox.alert(data.errormsg);
@@ -971,7 +971,6 @@ function initEditorTabs() {
   });
   $('#editortabs').sortable();
 }
-
 
 $(document).ready(function () {
 
@@ -1010,7 +1009,5 @@ $(document).ready(function () {
   refreshLeftFrame();
 
   initRightFrame();
-
-  addHandler(document, "keydown", disabler);
 
 });
