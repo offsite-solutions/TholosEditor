@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-sm-12">
     <form class="form-horizontal" method="post" role="form" onsubmit="return false;" id="form_$p_id">
 <!-- common fields start -->
 <input type="hidden" name="action" value="updateComponentType">
@@ -111,7 +111,7 @@ SELECT ctx.hierarchy || ct2.id,
 
       <hr>
       <div class="row">
-        <div class="col-xs-12 text-center">
+        <div class="col-sm-12 text-center">
           <button class="btn btn-primary" onclick="doUpdateComponentType($p_id,$('#tab_$p_id #p_class_name').val());">Save</button>
         </div>
       </div>

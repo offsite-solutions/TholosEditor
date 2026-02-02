@@ -15,7 +15,7 @@ _function_name=TholosEditor\TholosEditorCallback::_eqs
 param=sqlancestor_id
 value=
 false=&nbsp;
-true=<button class="btn btn-default btn-xs" onclick="removeMethod($p_component_type_id,$sqllink_id);" title="Remove"><i class="fa-regular fa-trash"></i></button>
+true=<button class="btn btn-default btn-sm" onclick="removeMethod($p_component_type_id,$sqllink_id);" title="Remove"><i class="fa-regular fa-trash"></i></button>
 %FUNC%>
   </td>
 </tr>

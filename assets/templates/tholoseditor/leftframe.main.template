@@ -10,19 +10,19 @@
 <div id="options_container" class="well well-sm">
   <div class="row">
 
-    <div class="col-xs-6" style="margin-bottom: 3px;">
+    <div class="col-sm-6" style="margin-bottom: 3px;">
       <input id="searchText" class="form-control input-sm" placeholder="Search..." style="width: 100%;">
     </div>
 
-    <div class="col-xs-2">
+    <div class="col-sm-2">
       <button class="btn btn-default btn-sm pull-right" onclick="loadComponentTree(true,'#search_result_tree',$('#searchText').val());" title="Search"><i class="fa-regular fa-search"></i></button>
     </div>
 
-    <div class="col-xs-2">
+    <div class="col-sm-2">
       <button class="btn btn-default btn-sm pull-right" onclick="createComponentType('','');" title="New component type"><i class="fa-regular fa-plus-square"></i></button>
     </div>
 
-    <div class="col-xs-2">
+    <div class="col-sm-2">
       <button class="btn btn-default btn-sm pull-right" onclick="loadComponentTree(true,'#component_tree','');" title="Refresh"><i class="fa-regular fa-refresh" id="globalLoading"></i></button>
     </div>
 
@@ -30,7 +30,7 @@
 </div>
 
 <div id="component_tree_container" class="well well-sm">
-  <div id="components" class="col-xs-12">
+  <div id="components" class="col-sm-12">
     <ul id="component_tabs" class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a data-toggle="tab" href="#tab_component_tree">Component Types</a></li>
       <li class=""><a data-toggle="tab" href="#tab_search_result_tree">Search results</a></li>
@@ -38,11 +38,11 @@
 
     <div class="tab-content">
       <div id="tab_component_tree" class="tab-pane active">
-         <div id="component_tree" class="col-xs-12">
+         <div id="component_tree" class="col-sm-12">
          </div>
       </div>
       <div id="tab_search_result_tree" class="tab-pane">
-        <div id="search_result_tree" class="col-xs-12">
+        <div id="search_result_tree" class="col-sm-12">
         </div>
       </div>
     </div>

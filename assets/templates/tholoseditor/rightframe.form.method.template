@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-sm-12">
     <form class="form-horizontal" method="post" role="form" onsubmit="return false;" id="method_form_$p_linked_component_type_id">
 <!-- common fields start -->
 <input type="hidden" name="action" value="saveMethod">
@@ -25,7 +25,7 @@
 
       <hr>
       <div class="row">
-        <div class="col-xs-12 text-center">
+        <div class="col-sm-12 text-center">
           <button class="btn btn-primary" onclick="saveMethod($p_linked_component_type_id);">Save</button>
         </div>
       </div>

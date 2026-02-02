@@ -1,7 +1,7 @@
 <div class="row componentData_container">
-  <div class="col-xs-4" style="height: 100%; overflow: auto;">
+  <div class="col-sm-4" style="height: 100%; overflow: auto;">
     <div class="row">
-      <div class="col-xs-10">
+      <div class="col-sm-10">
         <select id="newPropertyID" class="form-control input-sm" style="width: 100%;">
           <option value="">* New</option>
 <%FUNC%
@@ -44,12 +44,12 @@ select p.id,
 %FUNC%>
         </select>
       </div>
-      <div class="col-xs-2">
+      <div class="col-sm-2">
         <button class="btn btn-default btn-sm pull-right" onclick="if ($('#tab_$p_component_type_id #newPropertyID').val()=='') addNewProperty($p_component_type_id); else addProperty($p_component_type_id,$('#tab_$p_component_type_id #newPropertyID').val());" title="Add new property"><i class="fa-regular fa-plus-square"></i></button>
       </div>
     </div>
     <div class="row" style="margin-top: 10px;">
-      <div class="col-xs-12">
+      <div class="col-sm-12">
         <p class="title">Properties</p>
         <table class="table table-condensed">
           <thead>
@@ -96,9 +96,9 @@ select id,name,type,type_desc,component_type_id,
       </div>
     </div>
   </div>
-  <div class="col-xs-2" style="height: 100%; overflow: auto;">
+  <div class="col-sm-2" style="height: 100%; overflow: auto;">
     <div class="row">
-      <div class="col-xs-10">
+      <div class="col-sm-10">
         <select id="newEventID" class="form-control input-sm" style="width: 100%;">
           <option value="">* New</option>
 <%FUNC%
@@ -137,12 +137,12 @@ select e.id,
 %FUNC%>
         </select>
       </div>
-      <div class="col-xs-2">
+      <div class="col-sm-2">
         <button class="btn btn-default btn-sm pull-right" onclick="if ($('#tab_$p_component_type_id #newEventID').val()=='') addNewEvent($p_component_type_id); else addEvent($p_component_type_id,$('#tab_$p_component_type_id #newEventID').val());" title="Add new event"><i class="fa-regular fa-plus-square"></i></button>
       </div>
     </div>
     <div class="row" style="margin-top: 10px;">
-      <div class="col-xs-12">
+      <div class="col-sm-12">
         <p class="title">PHP events</p>
         <table class="table table-condensed">
           <thead>
@@ -184,7 +184,7 @@ select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
         </table>
       </div>
 
-      <div class="col-xs-12">
+      <div class="col-sm-12">
         <p class="title">Database events</p>
         <table class="table table-condensed">
           <thead>
@@ -226,7 +226,7 @@ select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
         </table>
       </div>
 
-      <div class="col-xs-12">
+      <div class="col-sm-12">
         <p class="title">GUI events</p>
         <table class="table table-condensed">
           <thead>
@@ -273,9 +273,9 @@ select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
     </div>
   </div>
 
-  <div class="col-xs-2" style="height: 100%; overflow: auto;">
+  <div class="col-sm-2" style="height: 100%; overflow: auto;">
     <div class="row">
-      <div class="col-xs-10">
+      <div class="col-sm-10">
         <select id="newMethodID" class="form-control input-sm" style="width: 100%;">
           <option value="">* New</option>
 <%FUNC%
@@ -314,12 +314,12 @@ select m.id,
 %FUNC%>
         </select>
       </div>
-      <div class="col-xs-2">
+      <div class="col-sm-2">
         <button class="btn btn-default btn-sm pull-right" onclick="if ($('#tab_$p_component_type_id #newMethodID').val()=='') addNewMethod($p_component_type_id); else addMethod($p_component_type_id,$('#tab_$p_component_type_id #newMethodID').val());" title="Add new method"><i class="fa-regular fa-plus-square"></i></button>
       </div>
     </div>
     <div class="row" style="margin-top: 10px;">
-      <div class="col-xs-12">
+      <div class="col-sm-12">
         <p class="title">Methods</p>
         <table class="table table-condensed">
           <thead>
@@ -365,14 +365,14 @@ select id,name,ancestor_class_name,ancestor_id,root_component_id,link_id
 
 
 
-  <div class="col-xs-4">
+  <div class="col-sm-4">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-sm-12">
         <button class="btn btn-default btn-sm pull-right" onclick="openComponentType($p_component_type_id,'');" title="Refresh"><i class="fa-regular fa-refresh"></i></button>
       </div>
     </div>
     <div class="row" style="margin-top: 10px;">
-      <div class="col-xs-12">
+      <div class="col-sm-12">
         <p class="title">Editor</p>
         <div class="componentTypeEditor_container">
 $templateabs_tholoseditor__rightframe_form_componenttype
