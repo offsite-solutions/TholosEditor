@@ -7,18 +7,18 @@
   use TholosEditor\TholosEditorApplication;
   
   /**
-   * TholosBuilder Bootstrap class
+   * TholosEditor Bootstrap class
    *
    * This class provides bootstrapping functionality for Tholos. It registers and implements autoload function for
    * loading all Tholos components automatically.
    *
-   * @package TholosBuilder
-   * @see TholosBuilderApplication
+   * @package TholosEditor
+   * @see TholosEditorApplication
    */
   class TholosEditor extends Singleton {
     
     /**
-     * @var TholosEditorApplication Reference to TholosBuilderApplication for quick component access.
+     * @var TholosEditorApplication Reference to TholosEditorApplication for quick component access.
      */
     public static TholosEditorApplication $app;
     

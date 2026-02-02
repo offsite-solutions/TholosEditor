@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="$TholosEditorVendorDir/bower-asset/jquery-ui/themes/base/jquery-ui.min.css"/>
   <link rel="stylesheet" href="$TholosEditorVendorDir/bower-asset/jstree/dist/themes/default/style.min.css"/>
   <link rel="stylesheet" href="$TholosEditorVendorDir/bower-asset/toastr/toastr.min.css"/>
-  <link rel="stylesheet" href="$TholosEditorAssetsDir/css/TholosBuilder.css"/>
+  <link rel="stylesheet" href="$TholosEditorAssetsDir/css/TholosEditor.css"/>
   </head>
   <body>
     <div id="wrapper" class="container-fluid">
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-	<script type="text/javascript">var __editorURL='$tholos_builderURL';</script>
+	<script type="text/javascript">var __editorURL='$tholos_editorURL';</script>
 
     <script src="$TholosEditorVendorDir/bower-asset/jquery/dist/jquery.min.js"></script>
     <script src="$TholosEditorVendorDir/bower-asset/jquery-ui/jquery-ui.min.js"></script>

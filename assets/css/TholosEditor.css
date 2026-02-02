@@ -75,12 +75,12 @@ html,body,td,th {
 #components { height: 100%; width: 100%; overflow: auto; padding: 0px; }
 
 #component_tree { height: 100%; width: 100%; overflow: auto; padding-left: 0px;}
-#component_tree .folder { background:url('/tholos_builder/images/file_sprite.png') right bottom no-repeat; }
-#component_tree .file { background:url('/tholos_builder/images/file_sprite.png') 0 0 no-repeat; }
+#component_tree .folder { background:url('/assets/images/file_sprite.png') right bottom no-repeat; }
+#component_tree .file { background:url('/assets/images/file_sprite.png') 0 0 no-repeat; }
 
 #search_result_tree { height: 100%; width: 100%; overflow: auto; padding-left: 0px;}
-#search_result_tree .folder { background:url('/tholos_builder/images/file_sprite.png') right bottom no-repeat; }
-#search_result_tree .file { background:url('/tholos_builder/images/file_sprite.png') 0 0 no-repeat; }
+#search_result_tree .folder { background:url('/assets/images/file_sprite.png') right bottom no-repeat; }
+#search_result_tree .file { background:url('/assets/images/file_sprite.png') 0 0 no-repeat; }
 
 .nav-tabs > li > a {
   padding: 5px;
