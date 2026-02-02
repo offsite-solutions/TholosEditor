@@ -4,6 +4,8 @@
    * Callback functions used in Tholos Editor templates
    */
    
+  namespace TholosEditor;
+   
   use Eisodos\Eisodos;
   
   class TholosEditorCallback {

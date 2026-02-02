@@ -3,6 +3,8 @@
   /** @noinspection SpellCheckingInspection */
   /** @noinspection NotOptimalIfConditionsInspection */
   
+  namespace TholosEditor;
+  
   use Eisodos\Abstracts\Singleton;
   use TholosEditor\TholosEditorApplication;
   
