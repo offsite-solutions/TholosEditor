@@ -1,0 +1,40 @@
+{
+  "name": "offsite-solutions/tholos-builder",
+  "description": "Tholos Application Builder",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Offsite Solutions Ltd.",
+      "email": "info@offsite-solutions.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "x-minimum-stability": "stable",
+  "require": {
+    "php": ">=8.4",
+    "offsite-solutions/eisodos": "@dev",
+    "offsite-solutions/eisodos-sqlparser": "@dev",
+    "kbsali/redmine-api": "2.8.0",
+    "bower-asset/bootstrap": "5.2.3",
+    "bower-asset/jquery": "3.6.4",
+    "bower-asset/jquery-ui": "1.12.1",
+    "bower-asset/select2": "4.0.13",
+    "bower-asset/store2": "2.14.2",
+    "bower-asset/jstree": "3.3.16",
+    "bower-asset/toastr": "2.1.2",
+    "bower-asset/bootbox": "6.0.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-0": {
+      "TholosBuilder\\": "src/"
+    }
+  }
+}
