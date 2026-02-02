@@ -1,6 +1,6 @@
 {
-  "name": "offsite-solutions/tholos-builder",
-  "description": "Tholos Application Builder",
+  "name": "offsite-solutions/tholos-editor",
+  "description": "Tholos Component Editor",
   "type": "library",
   "authors": [
     {
@@ -19,7 +19,6 @@
     "php": ">=8.4",
     "offsite-solutions/eisodos": "@dev",
     "offsite-solutions/eisodos-sqlparser": "@dev",
-    "kbsali/redmine-api": "2.8.0",
     "bower-asset/bootstrap": "5.2.3",
     "bower-asset/jquery": "3.6.4",
     "bower-asset/jquery-ui": "1.12.1",
@@ -34,7 +33,7 @@
   },
   "autoload": {
     "psr-0": {
-      "TholosBuilder\\": "src/"
+      "TholosEditor\\": "src/"
     }
   }
 }
