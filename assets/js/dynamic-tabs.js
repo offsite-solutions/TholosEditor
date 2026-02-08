@@ -8,14 +8,18 @@
  * <ul class="nav nav-tabs" id="myTab" role="tablist">
  *   <li class="nav-item" role="presentation">
  *     <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
- *             data-bs-target="#home-tab-pane" type="button" role="tab"
- *             aria-controls="home-tab-pane" aria-selected="true">Home</button>
+ *             data-bs-target="#tab_home" type="button" role="tab"
+ *             aria-controls="tab_home" aria-selected="true">Home</button>
  *   </li>
  * </ul>
  * <div class="tab-content" id="myTabContent">
- *   <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+ *   <div class="tab-pane fade show active" id="tab_home" role="tabpanel"
  *        aria-labelledby="home-tab" tabindex="0">...</div>
  * </div>
+ *
+ * ID Format:
+ *   - Tab button: {id}-tab (e.g., "home-tab")
+ *   - Tab pane: tab_{id} (e.g., "tab_home")
  *
  * Usage:
  *   const tabs = $("ul.nav-tabs");
@@ -97,7 +101,7 @@
       const $tabContent = findTabContent($tabsContainer);
 
       const tabId = id + '-tab';
-      const paneId = id + '-tab-pane';
+      const paneId = 'tab_' + id;
 
       // Check if tab already exists
       if ($('#' + tabId).length > 0) {
@@ -183,13 +187,19 @@
    */
   $.fn.getBSTabByID = function(id) {
     const tabId = id + '-tab';
-    const $button = this.find('#' + tabId);
+    const paneId = 'tab_' + id;
+    let $button = this.find('#' + tabId);
 
     if ($button.length === 0) {
       // Try without -tab suffix in case full ID was passed
-      const $buttonAlt = this.find('#' + id);
-      if ($buttonAlt.length > 0) {
-        return $buttonAlt.closest('.nav-item');
+      $button = this.find('#' + id);
+      if ($button.length > 0) {
+        return $button.closest('.nav-item');
+      }
+      // Try finding by data-bs-target
+      $button = this.find('[data-bs-target="#' + paneId + '"]');
+      if ($button.length > 0) {
+        return $button.closest('.nav-item');
       }
       return $();
     }
@@ -282,15 +292,15 @@
 
   /**
    * Get the current tab ID from any element within a tab pane
-   * @returns {string|null} The tab ID (without -tab suffix) or null
+   * @returns {string|null} The tab ID (without tab_ prefix) or null
    */
   $.fn.currentBSTabID = function() {
     const $tabPane = this.closest('.tab-pane');
     if ($tabPane.length === 0) return null;
 
     const paneId = $tabPane.attr('id');
-    // Remove -tab-pane suffix to get base ID
-    return paneId.replace(/-tab-pane$/, '');
+    // Remove tab_ prefix to get base ID
+    return paneId.replace(/^tab_/, '');
   };
 
   /**

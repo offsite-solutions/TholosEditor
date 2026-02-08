@@ -4,22 +4,22 @@
 _function_name=TholosEditor\TholosEditorCallback::_eqs
 param=sqldisabled
 value=Y
-true=<a class="propdef" href="javascript:void(false);" onclick="disableProperty($p_component_type_id,$sqlid,'N');" title="Enable"><i class="fa-regular fa-square-o"></i></a>
-false=<a class="propdef" href="javascript:void(false);" onclick="disableProperty($p_component_type_id,$sqlid,'Y');" title="Disable"><i class="fa-regular fa-check-square-o"></i></a>
+true=<a class="propdef" href="javascript:void(false);" onclick="disableProperty($p_component_type_id,$sqlid,'N');" title="Enable"><i class="fa-regular fa-square"></i></a>
+false=<a class="propdef" href="javascript:void(false);" onclick="disableProperty($p_component_type_id,$sqlid,'Y');" title="Disable"><i class="fa-regular fa-check-square"></i></a>
 %FUNC%>
 <a class="propdef" href="javascript:void(false);" onclick="mandatoryProperty($p_component_type_id,$sqlid,('$sqlmandatory'=='Y'?'N':'Y'));" title="Mandatory"><i class="fa-regular <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_eqs
 param=sqlmandatory
 value=Y
 true=fa-exclamation-circle
-false=fa-circle-o
+false=fa-circle
 %FUNC%>"></i></a>
 <a class="propdef" href="javascript:void(false);" onclick="runtimeProperty($p_component_type_id,$sqlid,('$sqlruntime'=='Y'?'N':'Y'));" title="Runtime"><i class="fa-regular <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_eqs
 param=sqlruntime
 value=Y
-true=fa-caret-square-o-right
-false=fa-square-o
+true=fa-square-caret-right
+false=fa-square
 %FUNC%>"></i></a>
 <a class="propdef" href="javascript:void(false);" onclick="nodataProperty($p_component_type_id,$sqlid,('$sqlnodata'=='Y'?'N':'Y'));" title="No hidden data"><i class="fa-regular <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_eqs

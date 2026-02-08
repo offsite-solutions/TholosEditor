@@ -156,6 +156,8 @@
       
       $this->definition_db->connect('Database1');
       
+      Eisodos::$parameterHandler->setParam('DBSyntax', $this->definition_db->DBSyntax());
+      
       // session initialization
       
       if (Eisodos::$parameterHandler->eq("action", "")) {
