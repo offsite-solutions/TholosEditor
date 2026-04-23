@@ -691,10 +691,10 @@
           "       and property_id=" . $this->definition_db->nullStrParam("p_property_id", false), $back);
         
         $boundVariables = [];
-        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"]);
+        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"] ?? '');
         $this->definition_db->bindParam($boundVariables, "p_component_type_id", "integer");
         $this->definition_db->bindParam($boundVariables, "p_property_id", "integer");
-        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"]);
+        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"] ?? '');
         $this->definition_db->bind($boundVariables, "p_mandatory", "text", Eisodos::$parameterHandler->eq("p_disabled", "Y") ? "N" : ($back["mandatory"] == "" ? "N" : $back["mandatory"]));
         $this->definition_db->bind($boundVariables, "p_runtime", "text", Eisodos::$parameterHandler->eq("p_disabled", "Y") ? "N" : ($back["runtime"] == "" ? "N" : $back["runtime"]));
         $this->definition_db->bind($boundVariables, "p_nodata", "text", ($back["nodata"] == "" ? "N" : $back["nodata"]));
@@ -706,7 +706,7 @@
         
         $this->definition_db->startTransaction();
         $this->definition_db->executeStoredProcedure(
-          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . ($back["id"] == "" ? "insert" : "update")),
+          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . (!$back["id"] ? "insert" : "update")),
           $boundVariables,
           $resultArray,
           true
@@ -752,10 +752,10 @@
           "       and property_id=" . $this->definition_db->nullStrParam("p_property_id", false), $back);
         
         $boundVariables = [];
-        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"]);
+        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"] ?? '');
         $this->definition_db->bindParam($boundVariables, "p_component_type_id", "integer");
         $this->definition_db->bindParam($boundVariables, "p_property_id", "integer");
-        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"]);
+        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"] ?? '');
         $this->definition_db->bind($boundVariables, "p_disabled", "text", Eisodos::$parameterHandler->eq("p_mandatory", "Y") ? "N" : ($back["disabled"] == "" ? "N" : $back["disabled"]));
         $this->definition_db->bind($boundVariables, "p_runtime", "text", Eisodos::$parameterHandler->eq("p_mandatory", "Y") ? "N" : ($back["runtime"] == "" ? "N" : $back["runtime"]));
         $this->definition_db->bind($boundVariables, "p_nodata", "text", ($back["nodata"] == "" ? "N" : $back["nodata"]));
@@ -767,7 +767,7 @@
         
         $this->definition_db->startTransaction();
         $this->definition_db->executeStoredProcedure(
-          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . ($back["id"] == "" ? "insert" : "update")),
+          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . (!$back["id"] ? "insert" : "update")),
           $boundVariables,
           $resultArray,
           true
@@ -813,10 +813,10 @@
           "       and property_id=" . $this->definition_db->nullStrParam("p_property_id", false), $back);
         
         $boundVariables = [];
-        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"]);
+        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"] ?? '');
         $this->definition_db->bindParam($boundVariables, "p_component_type_id", "integer");
         $this->definition_db->bindParam($boundVariables, "p_property_id", "integer");
-        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"]);
+        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"] ?? '');
         $this->definition_db->bind($boundVariables, "p_disabled", "text", Eisodos::$parameterHandler->eq("p_runtime", "Y") ? "N" : ($back["disabled"] == "" ? "N" : $back["disabled"]));
         $this->definition_db->bind($boundVariables, "p_mandatory", "text", Eisodos::$parameterHandler->eq("p_runtime", "Y") ? "N" : ($back["mandatory"] == "" ? "N" : $back["mandatory"]));
         $this->definition_db->bind($boundVariables, "p_nodata", "text", ($back["nodata"] == "" ? "N" : $back["nodata"]));
@@ -828,7 +828,7 @@
         
         $this->definition_db->startTransaction();
         $this->definition_db->executeStoredProcedure(
-          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . ($back["id"] == "" ? "insert" : "update")),
+          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . (!$back["id"] ? "insert" : "update")),
           $boundVariables,
           $resultArray,
           true
@@ -874,10 +874,10 @@
           "       and property_id=" . $this->definition_db->nullStrParam("p_property_id", false), $back);
         
         $boundVariables = [];
-        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"]);
+        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"] ?? '');
         $this->definition_db->bindParam($boundVariables, "p_component_type_id", "integer");
         $this->definition_db->bindParam($boundVariables, "p_property_id", "integer");
-        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"]);
+        $this->definition_db->bind($boundVariables, "p_default_value", "text", $back["default_value"] ?? '');
         $this->definition_db->bind($boundVariables, "p_disabled", "text", ($back["disabled"] == "" ? "N" : $back["disabled"]));
         $this->definition_db->bind($boundVariables, "p_mandatory", "text", ($back["mandatory"] == "" ? "N" : $back["mandatory"]));
         $this->definition_db->bind($boundVariables, "p_runtime", "text", ($back["runtime"] == "" ? "N" : $back["runtime"]));
@@ -889,7 +889,7 @@
         
         $this->definition_db->startTransaction();
         $this->definition_db->executeStoredProcedure(
-          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . ($back["id"] == "" ? "insert" : "update")),
+          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . ((!$back["id"]) ? "insert" : "update")),
           $boundVariables,
           $resultArray,
           true
@@ -935,7 +935,7 @@
           "       and property_id=" . $this->definition_db->nullStrParam("p_property_id", false), $back);
         
         $boundVariables = [];
-        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"]);
+        $this->definition_db->bind($boundVariables, "p_id", "integer", $back["id"] ?? '');
         $this->definition_db->bindParam($boundVariables, "p_component_type_id", "integer");
         $this->definition_db->bindParam($boundVariables, "p_property_id", "integer");
         $this->definition_db->bindParam($boundVariables, "p_default_value", "text");
@@ -950,7 +950,7 @@
         
         $this->definition_db->startTransaction();
         $this->definition_db->executeStoredProcedure(
-          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . ($back["id"] == "" ? "insert" : "update")),
+          $this->getDBObject($this->definition_db, "sp.component_type_prop_defs_" . (!$back["id"] ? "insert" : "update")),
           $boundVariables,
           $resultArray,
           true
