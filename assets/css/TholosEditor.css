@@ -292,6 +292,110 @@ td.prop_mandatory {
   color: darkgoldenrod;
 }
 
+/* =========================================================
+   Top toolbar (.te-toolbar) — full-width 38px strip above
+   #wrapper. Replaces the legacy #portalinfo_container +
+   #options_container two-strip header.
+   ========================================================= */
+.te-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .25rem .65rem;
+  background-color: var(--te-dark);
+  z-index: 10;
+}
+
+.te-brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.te-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border-radius: 4px;
+}
+.te-brand-mark img {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+.te-brand-text {
+  margin-left: .5rem;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.te-search {
+  flex: 0 1 280px;
+  min-width: 160px;
+  margin-left: .5rem;
+}
+.te-search .form-control {
+  font-size: 12px;
+  height: 26px;
+  min-height: 0;
+  padding: .15rem .5rem;
+}
+
+.te-toolbar-spacer { flex: 1 1 auto; }
+
+.te-toolbar-btn {
+  --bs-btn-padding-x: .45rem;
+  --bs-btn-padding-y: .1rem;
+  --bs-btn-font-size: 12px;
+  --bs-btn-line-height: 1;
+  height: 26px;
+  color: rgba(255,255,255,.85);
+  background: transparent;
+  border: none;
+  border-radius: .25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.te-toolbar-btn:hover {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+}
+.te-toolbar-btn:focus-visible {
+  outline: 2px solid rgba(255,255,255,.4);
+  outline-offset: 1px;
+}
+/* Search button is inside the input-group, so it adopts a
+   form-control-bordered look instead of the toolbar-btn look. */
+.te-search .te-toolbar-btn {
+  border: 1px solid var(--bs-border-color);
+  border-left: 0;
+  background: #fff;
+  color: var(--te-text-muted);
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+.te-search .te-toolbar-btn:hover {
+  background: var(--te-pane-bg);
+  color: var(--te-primary);
+}
+
+.te-info-tip {
+  text-align: left;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.te-info-tip b { font-weight: 600; }
+
 /* boostrap 5 hacks */
 .jstree-default-small .jstree-icon {
   width: 14px !important;
