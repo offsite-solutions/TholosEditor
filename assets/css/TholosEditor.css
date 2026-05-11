@@ -1,3 +1,24 @@
+/* =========================================================
+   Palette tokens — UI redesign foundation (sub-project 1).
+   Used across foundation, treeview, right-pane content,
+   and entity-form sub-projects.
+   ========================================================= */
+:root {
+  --te-primary:             #236499;
+  --te-primary-hover:       #1d5380;
+  --te-success:             #88bd21;
+  --te-success-tint-hover:  rgba(136,189,33,0.15);
+  --te-success-tint-select: rgba(136,189,33,0.22);
+  --te-dark:                #3a3f44;
+  --te-pane-bg:             #f8f9fa;
+  --te-surface:             #ffffff;
+  --te-border:              #dee2e6;
+  --te-border-soft:         #f1f3f5;
+  --te-text:                #212529;
+  --te-text-muted:          #6c757d;
+  --te-text-dim:            #adb5bd;
+}
+
 html, body {
   margin: 0px;
   padding: 0px;
