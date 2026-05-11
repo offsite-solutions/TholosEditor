@@ -415,6 +415,72 @@ td.prop_mandatory {
   box-shadow: inset 0 0 0 1px var(--te-success);
 }
 
+/* Right-click context menu — match Bootstrap dropdown look, tight rows.
+   Overrides jstree default theme. Ported from builder for visual parity;
+   sub-project 2 surface pulled forward during sub-project 1 execution.
+   !important is required to override jstree's own theme rules. */
+.vakata-context,
+.vakata-context ul {
+  background: var(--te-surface) !important;
+  border: 1px solid rgba(0,0,0,.15) !important;
+  border-radius: .25rem !important;
+  box-shadow: 0 .25rem .5rem rgba(0,0,0,.15) !important;
+  padding: .15rem 0 !important;
+  font-size: 12px !important;
+  min-width: 0;
+}
+.vakata-context li {
+  line-height: 1.3 !important;
+}
+.vakata-context li > a {
+  padding: .15rem .65rem !important;
+  line-height: 1.3 !important;
+  min-height: 0 !important;
+  color: var(--te-text) !important;
+  text-shadow: none !important;
+  font-size: 12px !important;
+}
+/* The empty icon slot <i> defaults to 2.4em x 2.4em — that's what was making rows huge.
+   FontAwesome converts <i class="fa-*"> to <svg class="svg-inline--fa">, so the same
+   sizing must apply to both element types. */
+.vakata-context li > a > i,
+.vakata-context li > a > i:empty,
+.vakata-context li > a > svg.svg-inline--fa {
+  width: 1.2em !important;
+  height: 1.2em !important;
+  line-height: 1.2em !important;
+  vertical-align: middle !important;
+  margin-right: .35em !important;
+  color: var(--te-text-muted);
+}
+.vakata-context li > a .vakata-contextmenu-sep {
+  height: 1.2em !important;
+  margin: 0 .35em 0 0 !important;
+}
+.vakata-context li > a:hover,
+.vakata-context .vakata-context-hover > a {
+  background-color: #e9ecef !important;
+  box-shadow: none !important;
+  color: var(--te-text) !important;
+}
+.vakata-context .vakata-context-separator > a,
+.vakata-context .vakata-context-separator > a:hover {
+  border-top-color: var(--te-border) !important;
+  margin: .15rem 0 !important;
+  padding: 0 !important;
+  line-height: 1px !important;
+  min-height: 1px !important;
+  height: 1px !important;
+}
+.vakata-context .vakata-contextmenu-disabled a,
+.vakata-context .vakata-contextmenu-disabled a:hover {
+  color: var(--te-text-dim) !important;
+}
+.vakata-context .vakata-contextmenu-shortcut {
+  font-size: 11px;
+  color: var(--te-text-muted);
+}
+
 .well-sm {
   padding: 9px;
   border-radius: 3px;
