@@ -519,42 +519,63 @@ table.pf-table .prop_toggles a:hover { color: var(--te-primary); }
 }
 
 /* =========================================================
-   Editor card body — temporary readability shim for the
-   BS3 .form-horizontal inside rightframe.form.* templates
-   while sub-project 4 (entity forms) is still pending.
-   Stacks the legacy col-sm-2 / col-sm-10 label/control split
-   above each other so labels don't wrap awkwardly inside
-   the narrower card body width.
+   .pf-form — vertical entity-edit form (Name / Type / etc.).
+   Used by rightframe.form.componenttype/event/method/property.
+   Labels stack above inputs so the form reads cleanly in the
+   narrower Editor card body.
    ========================================================= */
-.componentTypeEditor_container .form-horizontal .form-group {
+.pf-form .pf-field {
   display: block;
   margin-bottom: .65rem;
 }
-.componentTypeEditor_container .form-horizontal .form-group > .control-label,
-.componentTypeEditor_container .form-horizontal .form-group > label.col-sm-2 {
+.pf-form .pf-field > label {
   display: block;
-  width: 100%;
-  max-width: 100%;
-  flex: 0 0 100%;
-  text-align: left;
   padding: 0 0 .15rem 0;
+  margin: 0;
   font-size: 11px;
   font-weight: 600;
+  letter-spacing: .02em;
   color: var(--te-text-muted);
 }
-.componentTypeEditor_container .form-horizontal .form-group > .col-sm-10 {
-  width: 100%;
-  max-width: 100%;
-  flex: 0 0 100%;
-  padding: 0;
-}
-.componentTypeEditor_container .form-horizontal .form-control {
+.pf-form .pf-field .form-control,
+.pf-form .pf-field .form-select {
   font-size: 12px;
   padding: .25rem .5rem;
 }
-.componentTypeEditor_container .form-horizontal hr {
-  margin: .65rem 0;
-  border-color: var(--te-border);
+.pf-form .pf-field textarea.form-control {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+/* Read-only field (e.g. "Inherited from") — render the value
+   in a soft-bordered, dim chip instead of an editable input. */
+.pf-form .pf-field-readonly .pf-field-value {
+  display: block;
+  padding: .25rem .5rem;
+  font-size: 12px;
+  color: var(--te-text);
+  background: var(--te-pane-bg);
+  border: 1px solid var(--te-border);
+  border-radius: .25rem;
+  min-height: 28px;
+}
+
+.pf-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: .35rem;
+  margin-top: .9rem;
+  padding-top: .65rem;
+  border-top: 1px solid var(--te-border);
+}
+.pf-form-footer .btn-primary {
+  --bs-btn-bg: var(--te-primary);
+  --bs-btn-border-color: var(--te-primary);
+  --bs-btn-hover-bg: var(--te-primary-hover);
+  --bs-btn-hover-border-color: var(--te-primary-hover);
+  --bs-btn-active-bg: var(--te-primary-hover);
+  --bs-btn-active-border-color: var(--te-primary-hover);
+  --bs-btn-padding-x: .9rem;
+  --bs-btn-padding-y: .25rem;
+  --bs-btn-font-size: 12px;
 }
 
 /* boostrap 5 hacks */
