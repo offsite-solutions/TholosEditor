@@ -9,6 +9,7 @@
   --te-success:             #88bd21;
   --te-success-tint-hover:  rgba(136,189,33,0.15);
   --te-success-tint-select: rgba(136,189,33,0.22);
+  --te-success-tint-tree-select: rgba(136,189,33,0.40);
   --te-dark:                #3a3f44;
   --te-pane-bg:             #f8f9fa;
   --te-surface:             #ffffff;
@@ -389,6 +390,29 @@ td.prop_mandatory {
   width: 14px !important;
   height: 14px !important;
   padding-top: 2px;
+}
+
+/* Selected and hovered tree rows tinted with the offsite brand green.
+   Ported from builder for visual parity; technically sub-project 2's
+   surface but pulled forward during sub-project 1 execution. */
+.jstree-default .jstree-hovered,
+.jstree-default-small .jstree-hovered {
+  background: var(--te-success-tint-hover);
+  box-shadow: none;
+  border-radius: 3px;
+}
+.jstree-default .jstree-clicked,
+.jstree-default-small .jstree-clicked {
+  background: var(--te-success-tint-tree-select);
+  box-shadow: inset 0 0 0 1px var(--te-success);
+  border-radius: 3px;
+}
+.jstree-default > .jstree-wholerow-ul .jstree-wholerow-hovered {
+  background: var(--te-success-tint-hover);
+}
+.jstree-default > .jstree-wholerow-ul .jstree-wholerow-clicked {
+  background: var(--te-success-tint-tree-select);
+  box-shadow: inset 0 0 0 1px var(--te-success);
 }
 
 .well-sm {
