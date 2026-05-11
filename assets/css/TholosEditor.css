@@ -357,6 +357,7 @@ td.prop_mandatory {
 .pf-tabs.nav-tabs {
   font-size: 12px;
   --bs-nav-tabs-link-active-color: var(--te-primary);
+  --bs-nav-tabs-link-active-bg: transparent;
   --bs-nav-tabs-link-active-border-color: transparent transparent var(--te-primary);
   --bs-nav-tabs-border-color: var(--te-border);
   padding: 0 6px;
