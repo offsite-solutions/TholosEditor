@@ -173,14 +173,26 @@ function loadComponentTree(full, treeid_, searchtext_) {
                 return {
                   "Edit": {
                     "label": "Edit",
+                    "icon": "fa-regular fa-pen-to-square",
                     "action": function (data) {
                       var inst = $.jstree.reference(data.reference),
                         obj = inst.get_node(data.reference);
                       openComponentType(obj.original.id, obj.original.name);
                     }
                   },
+                  "Create inherited": {
+                    "label": "Create inherited",
+                    "icon": "fa-regular fa-square-plus",
+                    "action": function (data) {
+                      var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                      createComponentType(obj.original.id, obj.original.name);
+                    }
+                  },
                   "Delete": {
                     "label": "Delete",
+                    "icon": "fa-regular fa-trash-can",
+                    "separator_before": true,
                     "action": function (data) {
                       var inst = $.jstree.reference(data.reference),
                         obj = inst.get_node(data.reference);
@@ -189,14 +201,6 @@ function loadComponentTree(full, treeid_, searchtext_) {
                           if (result === true) deleteComponentType(obj.original.id, obj.original.version, obj.original.name);
                         }
                       );
-                    }
-                  },
-                  "Create inherited": {
-                    "label": "Create inherited",
-                    "action": function (data) {
-                      var inst = $.jstree.reference(data.reference),
-                        obj = inst.get_node(data.reference);
-                      createComponentType(obj.original.id, obj.original.name);
                     }
                   }
                 };
