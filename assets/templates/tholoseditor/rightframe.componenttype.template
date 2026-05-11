@@ -184,6 +184,7 @@ select id,name,type,ancestor_class_name,ancestor_id,root_component_id,link_id
       </div>
     </div>
 
+    <!-- No add-picker: DB and GUI events share the PHP events card's #newEventID picker (one input, type filtered by SQL). -->
     <div class="pf-card">
       <div class="card-header">
         <h5 class="pf-card-title"><i class="fa-regular fa-database"></i>Database events</h5>

@@ -1,4 +1,4 @@
-<tr class="[%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=sqldisabled;value=Y;true=prop_disabled;false=%]">
+<tr class="[%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=sqldisabled;value=Y;true=prop_disabled;false=%] [%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=sqlmandatory;value=Y;true=prop_mandatory;false=%]">
   <td nowrap>
 <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_eqs
@@ -29,7 +29,7 @@ true=fa-ban
 false=fa-code
 %FUNC%>"></i></a>
   </td>
-  <td class="[%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=sqlmandatory;value=Y;true=prop_mandatory;false=%]">
+  <td>
 <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_eqs
 param=sqlancestor_id
