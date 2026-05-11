@@ -148,19 +148,11 @@ a {
   padding: 10px;
   height: 100%;
   width: 100%;
+  background: var(--te-pane-bg);
 }
 
-.componentData_container > div {
-  border-right: 1px solid #eee;
-  height: 100%;
-}
-
-p.title {
-  font-weight: bold;
-  background-color: #bbb;
-  color: #fff;
-  padding: 3px;
-  border-radius: 3px;
+.componentData_container > [class^="col-"] {
+  padding: 0 6px;
 }
 
 .ancestor {
@@ -169,24 +161,6 @@ p.title {
 
 div.checkbox {
   margin: 0px;
-}
-
-tr.prop_disabled td {
-  background-color: #888;
-  color: #ccc;
-}
-
-a.propdef {
-  color: #000;
-  font-weight: normal;
-}
-
-tr.prop_disabled a.propdef {
-  color: #ccc;
-}
-
-td.prop_mandatory {
-  font-weight: bold;
 }
 
 /* icon colors */
@@ -385,6 +359,157 @@ td.prop_mandatory {
   border-bottom-color: var(--te-border);
 }
 .pf-tabs .nav-link.active:hover { border-bottom-color: var(--te-primary); }
+
+/* =========================================================
+   .pf-card — section wrapper for prop-editor surfaces.
+   Ported from builder's .wiz-card pattern. Header carries
+   the section title + icon (offsite-blue) plus a compact
+   "+ Add new X" picker on the right; body holds the table.
+   ========================================================= */
+.pf-card {
+  background: var(--te-surface);
+  border: 1px solid var(--te-border);
+  border-radius: .35rem;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.pf-card .card-header {
+  background-color: var(--te-pane-bg);
+  border-bottom: 1px solid var(--te-border);
+  padding: .35rem .55rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.pf-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--te-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex: 0 0 auto;
+}
+.pf-card-title .fa-regular,
+.pf-card-title .fa-solid,
+.pf-card-title .svg-inline--fa {
+  color: var(--te-primary);
+  font-size: 12px;
+}
+.pf-card .card-body {
+  padding: 0;
+}
+.pf-card .card-body > .pf-table thead th:first-child { padding-left: .55rem; }
+.pf-card .card-body > .pf-table tbody tr:last-child td { border-bottom: 0; }
+
+/* =========================================================
+   .pf-table — read-only data table for Properties /
+   Events / Methods. Light-gray header, alternating row
+   stripes, offsite-green hover/select.
+   ========================================================= */
+table.pf-table {
+  font-size: 12px;
+  margin: 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+}
+table.pf-table thead th {
+  background: #e9ecef;
+  color: #495057;
+  font-weight: 600;
+  border-bottom: 1px solid var(--te-border);
+  padding: .35rem .55rem;
+}
+table.pf-table tbody td {
+  padding: .25rem .55rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--te-border-soft);
+  overflow: hidden;
+  word-break: break-word;
+}
+table.pf-table tbody tr:nth-child(odd)  td { background: var(--te-surface); }
+table.pf-table tbody tr:nth-child(even) td { background: var(--te-pane-bg); }
+table.pf-table tbody tr:hover td          { background: var(--te-success-tint-hover); }
+table.pf-table tbody tr.is-selected td    {
+  background: var(--te-success-tint-select);
+  box-shadow: inset 2px 0 0 var(--te-success);
+}
+table.pf-table tbody tr.prop_mandatory td { font-weight: 600; }
+table.pf-table tbody tr.prop_disabled td  { color: var(--te-text-dim); }
+table.pf-table tbody tr.prop_disabled a   { color: var(--te-text-dim); }
+
+/* Property toggle column (first column of Properties table). */
+table.pf-table .prop_toggles { white-space: nowrap; }
+table.pf-table .prop_toggles a {
+  color: var(--te-text);
+  padding: 0 2px;
+  font-size: 12px;
+  text-decoration: none;
+}
+table.pf-table .prop_toggles a:hover { color: var(--te-primary); }
+
+/* =========================================================
+   .pf-row-actions — grouped icon buttons on the right of a
+   table row. Compact, neutral border, hover lighten.
+   ========================================================= */
+.pf-row-actions {
+  float: right;
+  display: inline-flex;
+  gap: .15rem;
+  margin-left: .35rem;
+}
+.pf-row-actions .btn {
+  --bs-btn-padding-x: .4rem;
+  --bs-btn-padding-y: .1rem;
+  --bs-btn-font-size: 11px;
+  --bs-btn-line-height: 1;
+  color: var(--te-text-muted);
+  background: var(--te-surface);
+  border: 1px solid var(--te-border);
+}
+.pf-row-actions .btn:hover {
+  background: #e9ecef;
+  border-color: #ced4da;
+  color: var(--te-text);
+}
+
+/* =========================================================
+   .pf-add-row — "Add new X" picker that lives in each
+   .pf-card's header on the right side.
+   ========================================================= */
+.pf-add-row {
+  display: flex;
+  gap: .25rem;
+  align-items: center;
+  max-width: 200px;
+  margin-left: auto;
+}
+.pf-add-row .form-select {
+  font-size: 11px;
+  height: 24px;
+  min-height: 0;
+  padding: .1rem 1.5rem .1rem .4rem;
+  border-color: var(--te-border);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.pf-add-row .btn {
+  --bs-btn-padding-x: .35rem;
+  --bs-btn-padding-y: .05rem;
+  --bs-btn-font-size: 11px;
+  --bs-btn-line-height: 1;
+  height: 24px;
+  color: var(--te-text-muted);
+  background: var(--te-surface);
+  border: 1px solid var(--te-border);
+  flex: 0 0 auto;
+}
+.pf-add-row .btn:hover {
+  background: var(--te-border-soft);
+  color: var(--te-primary);
+}
 
 /* boostrap 5 hacks */
 .jstree-default-small .jstree-icon {
