@@ -131,7 +131,6 @@ a {
   padding-left: 0px;
 }
 
-
 #componentTabs_container {
   height: 100%;
   overflow: hidden;
@@ -353,10 +352,9 @@ td.prop_mandatory {
 
 /* =========================================================
    .pf-tabs — underline-style nav-tabs.
-   Ported from builder's prop-editor sub-project, pulled
-   forward to sub-project 1 for the left-pane tab strip only.
-   The right-pane per-component-type tab strip keeps the
-   legacy .nav-tabs blue-block style until sub-project 3.
+   Ported from builder's prop-editor sub-project; used by
+   both the left-pane component tab strip and the right-pane
+   editor tab strip.
    ========================================================= */
 .pf-tabs.nav-tabs {
   font-size: 12px;
