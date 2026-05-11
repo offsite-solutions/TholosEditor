@@ -95,8 +95,19 @@ a {
   height: 100%;
   width: 100%;
   padding: 0;
-  background-color: var(--te-surface);
+  background-color: var(--te-pane-bg);
   overflow: auto;
+}
+
+/* Truncate long class names with ellipsis so the tree doesn't
+   force horizontal scroll on narrow panes. Editor has no trailing
+   badge inside the anchor, so ellipsis applies directly to the
+   anchor — no inner label wrapper needed (unlike builder). */
+.jstree-anchor {
+  max-width: calc(100% - 22px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #components {
