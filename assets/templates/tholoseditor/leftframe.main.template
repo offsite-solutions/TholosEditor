@@ -1,6 +1,6 @@
 <div id="component_tree_container">
   <div id="components">
-    <ul id="component_tabs" class="nav nav-tabs" data-tabs="tabs">
+    <ul id="component_tabs" class="nav nav-tabs pf-tabs" data-tabs="tabs">
       <li class="nav-item">
         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab_component_tree" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Component Types</button>
       </li>

@@ -347,6 +347,42 @@ td.prop_mandatory {
 }
 .te-info-tip b { font-weight: 600; }
 
+/* =========================================================
+   .pf-tabs — underline-style nav-tabs.
+   Ported from builder's prop-editor sub-project, pulled
+   forward to sub-project 1 for the left-pane tab strip only.
+   The right-pane per-component-type tab strip keeps the
+   legacy .nav-tabs blue-block style until sub-project 3.
+   ========================================================= */
+.pf-tabs.nav-tabs {
+  font-size: 12px;
+  --bs-nav-tabs-link-active-color: var(--te-primary);
+  --bs-nav-tabs-link-active-border-color: transparent transparent var(--te-primary);
+  --bs-nav-tabs-border-color: var(--te-border);
+  padding: 0 6px;
+}
+.pf-tabs .nav-link {
+  padding: .35rem .7rem;
+  color: var(--te-text-muted);
+  border: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+}
+.pf-tabs .nav-link.active {
+  font-weight: 600;
+  border-bottom: 2px solid var(--te-primary);
+  background: transparent;
+  color: var(--te-primary);
+}
+.pf-tabs .nav-link:hover {
+  background: var(--te-border-soft);
+  color: var(--te-text);
+  border-color: transparent;
+  border-bottom-color: var(--te-border);
+}
+.pf-tabs .nav-link.active:hover { border-bottom-color: var(--te-primary); }
+
 /* boostrap 5 hacks */
 .jstree-default-small .jstree-icon {
   width: 14px !important;
