@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mockup — Right-Pane Content (Sub-project 3)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    /* ============================================================
+       Palette tokens (carried from sub-project 1)
+       ============================================================ */
+    :root {
+      --te-primary:                  #236499;
+      --te-primary-hover:            #1d5380;
+      --te-success:                  #88bd21;
+      --te-success-tint-hover:       rgba(136,189,33,0.15);
+      --te-success-tint-select:      rgba(136,189,33,0.22);
+      --te-success-tint-tree-select: rgba(136,189,33,0.40);
+      --te-dark:                     #3a3f44;
+      --te-pane-bg:                  #f8f9fa;
+      --te-surface:                  #ffffff;
+      --te-border:                   #dee2e6;
+      --te-border-soft:              #f1f3f5;
+      --te-text:                     #212529;
+      --te-text-muted:               #6c757d;
+      --te-text-dim:                 #adb5bd;
+    }
+
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    html, body, td, th { font-size: 9pt; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+    /* App shell (carried from sub-project 1) */
+    .te-toolbar {
+      position: absolute; top: 0; left: 0; right: 0; height: 38px;
+      display: flex; align-items: center; gap: .35rem;
+      padding: .25rem .65rem; background-color: var(--te-dark); z-index: 10;
+    }
+    .te-brand { display: inline-flex; align-items: center; flex: 0 0 auto; }
+    .te-brand-mark {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; background: #fff; border-radius: 4px;
+    }
+    .te-brand-mark img { width: 22px; height: 22px; display: block; }
+    .te-brand-text {
+      margin-left: .5rem; color: #fff;
+      font-size: 13px; font-weight: 600; white-space: nowrap;
+    }
+    .te-search { flex: 0 1 280px; min-width: 160px; margin-left: .5rem; }
+    .te-search .form-control { font-size: 12px; height: 26px; min-height: 0; padding: .15rem .5rem; }
+    .te-toolbar-spacer { flex: 1 1 auto; }
+    .te-toolbar-btn {
+      --bs-btn-padding-x: .45rem; --bs-btn-padding-y: .1rem;
+      --bs-btn-font-size: 12px; --bs-btn-line-height: 1;
+      height: 26px; color: rgba(255,255,255,.85);
+      background: transparent; border: none; border-radius: .25rem;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .te-toolbar-btn:hover { background: rgba(255,255,255,.12); color: #fff; }
+    .te-search .te-toolbar-btn {
+      border: 1px solid var(--bs-border-color); border-left: 0;
+      background: #fff; color: var(--te-text-muted);
+      border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;
+    }
+
+    #wrapper {
+      position: absolute; width: 100%; height: calc(100% - 38px);
+      top: 38px; left: 0;
+    }
+    #container { display: flex; height: 100%; }
+    #left_frame  { width: 18%; min-width: 240px; border-right: 1px solid var(--te-border); }
+    #right_frame { flex: 1; min-width: 0; }
+    #left_frame > .content, #right_frame > .content { height: 100%; }
+
+    /* Left pane summary (carried from sub-projects 1+2) */
+    #left_frame .content { padding: 0; }
+    #component_tree_container {
+      height: 100%; width: 100%; padding: 0;
+      background-color: var(--te-pane-bg); overflow: auto;
+    }
+
+    /* === pf-tabs (carried from sub-project 1) === */
+    .pf-tabs.nav-tabs {
+      font-size: 12px;
+      --bs-nav-tabs-link-active-color: var(--te-primary);
+      --bs-nav-tabs-link-active-bg: transparent;
+      --bs-nav-tabs-link-active-border-color: transparent transparent var(--te-primary);
+      --bs-nav-tabs-border-color: var(--te-border);
+      padding: 0 6px;
+    }
+    .pf-tabs .nav-link {
+      padding: .35rem .7rem; color: var(--te-text-muted);
+      border: 1px solid transparent; border-bottom: 2px solid transparent;
+      border-radius: 0; background: transparent;
+    }
+    .pf-tabs .nav-link.active {
+      font-weight: 600;
+      border-bottom: 2px solid var(--te-primary);
+      background: transparent; color: var(--te-primary);
+    }
+    .pf-tabs .nav-link:hover {
+      background: var(--te-border-soft); color: var(--te-text);
+      border-color: transparent; border-bottom-color: var(--te-border);
+    }
+    .pf-tabs .nav-link.active:hover { border-bottom-color: var(--te-primary); }
+
+    .mock-tree { font-size: 12px; padding: 4px 6px; color: var(--te-text); }
+    .mock-tree-node {
+      display: flex; align-items: center; gap: 4px;
+      padding: 2px 4px; border-radius: 3px;
+      max-width: calc(100% - 22px); overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+    }
+    .mock-tree-node.selected {
+      background: var(--te-success-tint-tree-select);
+      box-shadow: inset 0 0 0 1px var(--te-success);
+    }
+    .mock-tree-node .fa-fw { width: 14px; text-align: center; }
+    .color-green { color: green; } .color-blue { color: dodgerblue; }
+    .color-purple { color: purple; } .color-grid { color: goldenrod; }
+    .color-brown { color: sandybrown; } .color-red { color: red; }
+    .color-grey { color: #c8c8c8; }
+
+    /* ============================================================
+       NEW — Sub-project 3 styles
+       ============================================================ */
+
+    /* Right-pane wrapper */
+    #right_frame .content { padding-left: 3px; overflow: hidden; }
+    #componentTabs_container { height: 100%; overflow: hidden; }
+    .tab-content { height: calc(100% - 32px); overflow: auto; }
+    .tab-pane { height: 100%; }
+    .componentData_container { padding: 10px; width: 100%; }
+    .componentData_container > [class^="col-"] {
+      border-right: 1px solid var(--te-border);
+      padding: 0 10px;
+    }
+    .componentData_container p.title {
+      font-size: 11px; font-weight: 600;
+      color: var(--te-text-muted);
+      letter-spacing: .04em; text-transform: uppercase;
+      margin: 12px 0 4px 0;
+    }
+
+    /* === pf-table — port from builder spec §3.2 === */
+    table.pf-table {
+      font-size: 12px; margin: 0;
+      table-layout: fixed;
+      border-collapse: collapse; width: 100%;
+    }
+    table.pf-table thead th {
+      background: #e9ecef; color: #495057; font-weight: 600;
+      border-bottom: 1px solid var(--te-border);
+      padding: .35rem .55rem;
+    }
+    table.pf-table tbody td {
+      padding: .25rem .55rem; vertical-align: top;
+      border-bottom: 1px solid var(--te-border-soft);
+      overflow: hidden; word-break: break-word;
+    }
+    table.pf-table tbody tr:nth-child(odd)  td { background: var(--te-surface); }
+    table.pf-table tbody tr:nth-child(even) td { background: var(--te-pane-bg); }
+    table.pf-table tbody tr:hover td          { background: var(--te-success-tint-hover); }
+    table.pf-table tbody tr.is-selected td    {
+      background: var(--te-success-tint-select);
+      box-shadow: inset 2px 0 0 var(--te-success);
+    }
+
+    /* Editor-specific row state classes (re-scoped) */
+    table.pf-table tbody tr.prop_mandatory td { font-weight: 600; }
+    table.pf-table tbody tr.prop_disabled td  { color: #adb5bd; }
+    table.pf-table tbody tr.prop_disabled a   { color: #adb5bd; }
+
+    /* Property toggle column (first column) */
+    table.pf-table .prop_toggles { white-space: nowrap; }
+    table.pf-table .prop_toggles a {
+      color: var(--te-text); padding: 0 2px; font-size: 12px;
+      text-decoration: none;
+    }
+    table.pf-table .prop_toggles a:hover { color: var(--te-primary); }
+
+    /* Ancestor link styling */
+    .ancestor { font-size: 10px; color: var(--te-text-muted); font-style: italic; }
+    .ancestor a { color: var(--te-text-muted); text-decoration: none; }
+    .ancestor a:hover { color: var(--te-primary); text-decoration: underline; }
+
+    /* === pf-row-actions — port from builder spec §3.4 === */
+    .pf-row-actions {
+      float: right; display: inline-flex; gap: .15rem; margin-left: .35rem;
+    }
+    .pf-row-actions .btn {
+      --bs-btn-padding-x: .4rem; --bs-btn-padding-y: .1rem;
+      --bs-btn-font-size: 11px; --bs-btn-line-height: 1;
+      color: var(--te-text-muted);
+      background: var(--te-surface); border: 1px solid var(--te-border);
+    }
+    .pf-row-actions .btn:hover {
+      background: #e9ecef; border-color: #ced4da; color: var(--te-text);
+    }
+
+    /* Add-row controls atop each column */
+    .pf-add-row { display: flex; gap: .35rem; align-items: center; margin-bottom: 4px; }
+    .pf-add-row select.form-select-sm {
+      font-size: 12px; height: 26px; padding: .15rem .5rem; flex: 1 1 auto;
+    }
+    .pf-add-row .btn {
+      --bs-btn-padding-x: .45rem; --bs-btn-padding-y: .15rem;
+      --bs-btn-font-size: 12px;
+      color: var(--te-text-muted); background: var(--te-surface);
+      border: 1px solid var(--te-border);
+    }
+    .pf-add-row .btn:hover {
+      background: var(--te-border-soft); color: var(--te-primary);
+    }
+
+    .editor-col .pf-add-row { justify-content: flex-end; margin-bottom: 8px; }
+
+    /* Mockup chrome */
+    .mockup-badge {
+      position: fixed; top: 46px; right: 12px; z-index: 9999;
+      background: var(--te-success); color: #1a2e0a;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .mockup-caption {
+      position: fixed; bottom: 8px; left: 12px;
+      font-size: 10px; color: var(--te-text-muted); pointer-events: none;
+    }
+
+    /* Form placeholder (sub-project 4) */
+    .form-placeholder {
+      background: var(--te-pane-bg);
+      border: 1px dashed var(--te-border);
+      padding: 12px; border-radius: 4px;
+      color: var(--te-text-muted); font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="te-toolbar">
+  <span class="te-brand">
+    <span class="te-brand-mark">
+      <img src="../../../assets/images/tholos-logo.svg" alt="Tholos" width="22" height="22">
+    </span>
+    <span class="te-brand-text">Tholos Editor</span>
+  </span>
+  <div class="te-search input-group input-group-sm">
+    <input type="text" class="form-control" placeholder="Search…">
+    <button class="btn te-toolbar-btn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <span class="te-toolbar-spacer"></span>
+  <button class="btn te-toolbar-btn" type="button" title="New component type"><i class="fa-solid fa-square-plus"></i></button>
+  <button class="btn te-toolbar-btn" type="button" title="Refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+  <button class="btn te-toolbar-btn" type="button" title="Connection info"><i class="fa-solid fa-circle-info"></i></button>
+</nav>
+
+<div class="mockup-badge">Mockup · sub-project 3</div>
+
+<div id="wrapper">
+  <div id="container">
+
+    <!-- LEFT FRAME (carried look — restyled in sub-projects 1+2) -->
+    <div id="left_frame">
+      <div class="content">
+        <div id="component_tree_container">
+          <ul class="nav nav-tabs pf-tabs">
+            <li class="nav-item"><button class="nav-link active" type="button">Component Types</button></li>
+            <li class="nav-item"><button class="nav-link" type="button">Search results</button></li>
+          </ul>
+          <div class="mock-tree">
+            <div class="mock-tree-node"><i class="fa-regular fa-caret-down fa-fw color-grey"></i><i class="fa-regular fa-cube fa-fw color-blue"></i>TContainer</div>
+            <div style="padding-left: 18px;">
+              <div class="mock-tree-node selected"><i class="fa-regular fa-caret-right fa-fw color-grey"></i><i class="fa-regular fa-table-cells fa-fw color-grid"></i>TGrid</div>
+              <div class="mock-tree-node"><i class="fa-regular fa-caret-right fa-fw color-grey"></i><i class="fa-regular fa-route fa-fw color-purple"></i>TRoute</div>
+              <div class="mock-tree-node"><i class="fa-regular fa-caret-right fa-fw color-grey"></i><i class="fa-regular fa-comment fa-fw color-brown"></i>TDialog</div>
+              <div class="mock-tree-node"><i class="fa-regular fa-caret-right fa-fw color-grey"></i><i class="fa-regular fa-circle-play fa-fw color-red"></i>TButton</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT FRAME — sub-project 3 surface -->
+    <div id="right_frame">
+      <div class="content">
+        <div id="componentTabs_container">
+          <ul id="editortabs" class="nav nav-tabs pf-tabs">
+            <li class="nav-item"><button class="nav-link active" type="button">TGrid</button></li>
+            <li class="nav-item"><button class="nav-link" type="button">TButton</button></li>
+            <li class="nav-item"><button class="nav-link" type="button">TForm</button></li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active">
+              <div class="componentData_container row g-0">
+
+                <!-- Properties column -->
+                <div class="col-md-4">
+                  <div class="pf-add-row">
+                    <select class="form-select form-select-sm">
+                      <option>* New</option>
+                      <option>id : STRING</option>
+                      <option>visible : BOOLEAN</option>
+                    </select>
+                    <button class="btn" title="Add new property"><i class="fa-regular fa-square-plus"></i></button>
+                  </div>
+                  <p class="title">Properties</p>
+                  <table class="pf-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 22%;">&nbsp;</th>
+                        <th style="width: 38%;">Name</th>
+                        <th style="width: 30%;">Type</th>
+                        <th style="width: 10%;">&nbsp;</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="prop_mandatory">
+                        <td class="prop_toggles">
+                          <a href="#" title="Disable"><i class="fa-regular fa-check-square"></i></a>
+                          <a href="#" title="Mandatory"><i class="fa-regular fa-exclamation-circle"></i></a>
+                          <a href="#" title="Runtime"><i class="fa-regular fa-square"></i></a>
+                          <a href="#" title="No hidden data"><i class="fa-regular fa-code"></i></a>
+                        </td>
+                        <td><a href="#">id</a></td>
+                        <td>STRING</td>
+                        <td>
+                          <span class="pf-row-actions">
+                            <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
+                          </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="prop_toggles">
+                          <a href="#"><i class="fa-regular fa-check-square"></i></a>
+                          <a href="#"><i class="fa-regular fa-circle"></i></a>
+                          <a href="#"><i class="fa-regular fa-square"></i></a>
+                          <a href="#"><i class="fa-regular fa-code"></i></a>
+                        </td>
+                        <td>
+                          <a href="#">visible</a>
+                          <div class="ancestor">from <a href="#">TComponent</a></div>
+                        </td>
+                        <td>BOOLEAN<br>true</td>
+                        <td>
+                          <span class="pf-row-actions">
+                            <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
+                          </span>
+                        </td>
+                      </tr>
+                      <tr class="is-selected">
+                        <td class="prop_toggles">
+                          <a href="#"><i class="fa-regular fa-check-square"></i></a>
+                          <a href="#"><i class="fa-regular fa-circle"></i></a>
+                          <a href="#"><i class="fa-regular fa-square-caret-right"></i></a>
+                          <a href="#"><i class="fa-regular fa-code"></i></a>
+                        </td>
+                        <td><a href="#">data_source</a></td>
+                        <td>COMPONENT<br>TQuery</td>
+                        <td>
+                          <span class="pf-row-actions">
+                            <button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button>
+                            <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
+                          </span>
+                        </td>
+                      </tr>
+                      <tr class="prop_disabled">
+                        <td class="prop_toggles">
+                          <a href="#"><i class="fa-regular fa-square"></i></a>
+                          <a href="#"><i class="fa-regular fa-circle"></i></a>
+                          <a href="#"><i class="fa-regular fa-square"></i></a>
+                          <a href="#"><i class="fa-regular fa-ban"></i></a>
+                        </td>
+                        <td>legacy_attr</td>
+                        <td>STRING</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Events column -->
+                <div class="col-md-3">
+                  <div class="pf-add-row">
+                    <select class="form-select form-select-sm">
+                      <option>* New</option>
+                      <option>onLoad : GUI</option>
+                    </select>
+                    <button class="btn" title="Add new event"><i class="fa-regular fa-square-plus"></i></button>
+                  </div>
+
+                  <p class="title">PHP events</p>
+                  <table class="pf-table">
+                    <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
+                    <tbody>
+                      <tr><td><a href="#">onBeforeRender</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                      <tr><td>onAfterRender<div class="ancestor">from <a href="#">TComponent</a></div></td><td></td></tr>
+                    </tbody>
+                  </table>
+
+                  <p class="title">Database events</p>
+                  <table class="pf-table">
+                    <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
+                    <tbody>
+                      <tr><td><a href="#">onLoadData</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                    </tbody>
+                  </table>
+
+                  <p class="title">GUI events</p>
+                  <table class="pf-table">
+                    <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
+                    <tbody>
+                      <tr><td><a href="#">onRowClick</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                      <tr><td><a href="#">onSortChange</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Methods column -->
+                <div class="col-md-2">
+                  <div class="pf-add-row">
+                    <select class="form-select form-select-sm">
+                      <option>* New</option>
+                    </select>
+                    <button class="btn" title="Add new method"><i class="fa-regular fa-square-plus"></i></button>
+                  </div>
+                  <p class="title">Methods</p>
+                  <table class="pf-table">
+                    <thead><tr><th style="width: 75%;">Name</th><th style="width: 25%;">&nbsp;</th></tr></thead>
+                    <tbody>
+                      <tr><td><a href="#">refreshData</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                      <tr><td>render<div class="ancestor">from <a href="#">TComponent</a></div></td><td></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Editor (form) column — sub-project 4 -->
+                <div class="col-md-3 editor-col">
+                  <div class="pf-add-row">
+                    <span class="text-muted" style="font-size: 11px;">Component type editor</span>
+                    <button class="btn" title="Refresh"><i class="fa-regular fa-arrows-rotate"></i></button>
+                  </div>
+                  <p class="title">Editor</p>
+                  <div class="form-placeholder">
+                    Entity-form pane (Name / Type / Component type / List of values / Description fields).
+                    <br><br>
+                    <strong>Sub-project 4</strong> restyles this column. Sub-project 3 leaves it untouched.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="mockup-caption">
+  Tabs use the same underline style as the left pane. Tables get alternating
+  stripes + offsite-green hover/select. Row buttons are grouped, compact, neutral border.
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
