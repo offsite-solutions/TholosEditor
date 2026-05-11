@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mockup — Foundation & Toolbar (Sub-project 1)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    /* ============================================================
+       Palette tokens (sub-project 1)
+       ============================================================ */
+    :root {
+      --te-primary:             #236499;
+      --te-primary-hover:       #1d5380;
+      --te-success:             #88bd21;
+      --te-success-tint-hover:  rgba(136,189,33,0.15);
+      --te-success-tint-select: rgba(136,189,33,0.22);
+      --te-dark:                #3a3f44;
+      --te-pane-bg:             #f8f9fa;
+      --te-surface:             #ffffff;
+      --te-border:              #dee2e6;
+      --te-border-soft:         #f1f3f5;
+      --te-text:                #212529;
+      --te-text-muted:          #6c757d;
+      --te-text-dim:            #adb5bd;
+    }
+
+    /* ============================================================
+       App shell (faithful to editor's current main.template)
+       ============================================================ */
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    html, body, td, th { font-size: 9pt; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+    #wrapper { position: absolute; inset: 0; }
+    #container { display: flex; height: 100%; }
+    #left_frame  { width: 24%; min-width: 280px; border-right: 1px solid var(--te-border); }
+    #right_frame { flex: 1; }
+    #left_frame > .content,
+    #right_frame > .content { height: 100%; }
+
+    /* ============================================================
+       NEW — Left-pane toolbar (.te-toolbar)
+       ============================================================ */
+    #left_frame .content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .te-toolbar {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      min-height: 38px;
+      padding: .25rem .5rem;
+      background-color: var(--te-dark);
+      flex: 0 0 auto;
+    }
+
+    .te-brand {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+    .te-brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      border-radius: 4px;
+    }
+    .te-brand-mark img { width: 18px; height: 18px; display: block; }
+    .te-brand-text {
+      margin-left: .4rem;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .te-search {
+      flex: 0 1 240px;
+      min-width: 140px;
+    }
+    .te-search .form-control {
+      font-size: 12px;
+      height: 26px;
+      min-height: 0;
+      padding: .15rem .5rem;
+    }
+
+    .te-toolbar-spacer { flex: 1 1 auto; }
+
+    .te-toolbar-btn {
+      --bs-btn-padding-x: .45rem;
+      --bs-btn-padding-y: .1rem;
+      --bs-btn-font-size: 12px;
+      --bs-btn-line-height: 1;
+      height: 26px;
+      color: rgba(255,255,255,.85);
+      background: transparent;
+      border: none;
+      border-radius: .25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .te-toolbar-btn:hover {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+    }
+    .te-toolbar-btn:focus-visible {
+      outline: 2px solid rgba(255,255,255,.4);
+      outline-offset: 1px;
+    }
+    /* Search button merged into the input-group */
+    .te-search .te-toolbar-btn {
+      border: 1px solid var(--bs-border-color);
+      border-left: 0;
+      background: #fff;
+      color: var(--te-text-muted);
+      border-top-right-radius: .25rem;
+      border-bottom-right-radius: .25rem;
+    }
+    .te-search .te-toolbar-btn:hover {
+      background: var(--te-pane-bg);
+      color: var(--te-primary);
+    }
+
+    .te-info-tip {
+      text-align: left;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    .te-info-tip b { font-weight: 600; }
+
+    /* ============================================================
+       Tree container (geometry change in sub-project 1; visual
+       look stays legacy until sub-project 2)
+       ============================================================ */
+    #component_tree_container {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      padding: 0;
+      background-color: var(--te-surface);
+      overflow: auto;
+    }
+
+    /* legacy nav-tabs blue-block style — intentionally preserved */
+    .nav-tabs .nav-link { color: #337ab7; }
+    .nav-tabs .nav-link.active { color: #fff; background-color: #8cb0cb; }
+    .nav-tabs { padding-left: 4px; }
+    .nav-tabs .nav-link {
+      padding: .25rem .6rem;
+      font-size: 12px;
+      border-radius: 0;
+    }
+    .tab-content { height: calc(100% - 30px); }
+    .tab-pane { height: 100%; }
+
+    /* legacy mock tree styling (faithful to today's look) */
+    .mock-tree { font-size: 12px; padding: 4px 6px; }
+    .mock-tree ul { list-style: none; padding-left: 18px; margin: 0; }
+    .mock-tree > ul { padding-left: 6px; }
+    .mock-node {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+    .mock-node:hover { background: #f1f5f9; }
+    .mock-node.selected { background: #b5d6ee; }
+    .mock-node .fa-fw { width: 14px; text-align: center; }
+    .tree_class_name {
+      font-size: 9px;
+      color: #fff;
+      background-color: #999;
+      padding: 1px 5px;
+      margin-left: 4px;
+      border-radius: 2px;
+    }
+
+    /* icon colors — faithful copy of current TholosEditor.css */
+    .color-grey       { color: #c8c8c8; }
+    .color-green      { color: green; }
+    .color-lightgreen { color: limegreen; }
+    .color-green3     { color: mediumseagreen; }
+    .color-blue       { color: dodgerblue; }
+    .color-lightblue  { color: deepskyblue; }
+    .color-maroon     { color: maroon; }
+    .color-purple     { color: purple; }
+    .color-purple2    { color: mediumpurple; }
+    .color-brown      { color: sandybrown; }
+    .color-red        { color: red; }
+    .color-control    { color: #ca7841; }
+    .color-grid       { color: goldenrod; }
+    .color-gridcolumn { color: darkgoldenrod; }
+
+    /* right pane placeholder — pretend it's the unchanged content */
+    #right_frame .content {
+      padding: 12px;
+      color: var(--te-text-muted);
+      font-size: 12px;
+    }
+    .placeholder-note {
+      background: var(--te-pane-bg);
+      border: 1px dashed var(--te-border);
+      padding: 16px;
+      border-radius: 4px;
+    }
+
+    /* ============================================================
+       Mockup chrome (visible only in this preview, not in the app)
+       ============================================================ */
+    .mockup-badge {
+      position: fixed;
+      top: 10px; right: 12px;
+      z-index: 9999;
+      background: var(--te-success);
+      color: #1a2e0a;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .mockup-caption {
+      position: fixed;
+      bottom: 8px;
+      left: 12px;
+      font-size: 10px;
+      color: var(--te-text-muted);
+      pointer-events: none;
+    }
+    .annotate {
+      position: relative;
+    }
+    .annotate::after {
+      content: attr(data-annotate);
+      position: absolute;
+      bottom: -1.4em;
+      left: 0;
+      font-size: 9px;
+      color: var(--te-text-dim);
+      letter-spacing: .04em;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="mockup-badge">Mockup · sub-project 1</div>
+
+<div id="wrapper">
+  <div id="container">
+
+    <!-- ========== LEFT FRAME ========== -->
+    <div id="left_frame">
+      <div class="content">
+
+        <!-- NEW TOOLBAR -->
+        <nav class="te-toolbar">
+          <span class="te-brand">
+            <span class="te-brand-mark">
+              <!-- inline SVG stand-in for favicon.png -->
+              <svg width="18" height="18" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="6"  width="26" height="4" fill="#88bd21"/>
+                <rect x="6" y="13" width="20" height="3" fill="#236499"/>
+                <rect x="9" y="19" width="14" height="3" fill="#236499"/>
+                <rect x="12" y="25" width="8" height="3" fill="#88bd21"/>
+              </svg>
+            </span>
+            <span class="te-brand-text">Tholos Editor</span>
+          </span>
+
+          <div class="te-search input-group input-group-sm">
+            <input type="text" class="form-control" placeholder="Search…">
+            <button class="btn te-toolbar-btn" type="button" title="Search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+
+          <span class="te-toolbar-spacer"></span>
+
+          <button class="btn te-toolbar-btn" type="button" title="New component type">
+            <i class="fa-solid fa-square-plus"></i>
+          </button>
+          <button class="btn te-toolbar-btn" type="button" title="Refresh">
+            <i class="fa-solid fa-arrows-rotate" id="globalLoading"></i>
+          </button>
+          <button class="btn te-toolbar-btn" type="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  data-bs-html="true"
+                  data-bs-title="<div class='te-info-tip'><div>https://demo.tholos.example/app</div><div>DB: <b>pgsql</b></div><div>App: <b>2.4.1</b> (dev: r783)</div></div>"
+                  title="Connection info">
+            <i class="fa-solid fa-circle-info"></i>
+          </button>
+        </nav>
+
+        <!-- TREE CONTAINER (geometry change only; legacy visual on purpose) -->
+        <div id="component_tree_container">
+
+          <!-- legacy tab strip with current blue-block active style — intentional -->
+          <ul class="nav nav-tabs">
+            <li class="nav-item"><button class="nav-link active" type="button">Component Types</button></li>
+            <li class="nav-item"><button class="nav-link" type="button">Search results</button></li>
+          </ul>
+
+          <div class="mock-tree">
+            <ul>
+              <li>
+                <span class="mock-node">
+                  <i class="fa-regular fa-caret-down fa-fw color-grey"></i>
+                  <i class="fa-regular fa-cube fa-fw color-blue"></i>
+                  TContainer
+                  <span class="tree_class_name">TContainer</span>
+                </span>
+                <ul>
+                  <li>
+                    <span class="mock-node">
+                      <i class="fa-regular fa-caret-down fa-fw color-grey"></i>
+                      <i class="fa-regular fa-database fa-fw color-green"></i>
+                      qTransactions
+                      <span class="tree_class_name">TQuery</span>
+                    </span>
+                    <ul>
+                      <li>
+                        <span class="mock-node selected">
+                          <i class="fa-regular fa-caret-right fa-fw color-grey"></i>
+                          <i class="fa-regular fa-table-cells fa-fw color-grid"></i>
+                          gridTransactions
+                          <span class="tree_class_name">TGrid</span>
+                        </span>
+                      </li>
+                      <li>
+                        <span class="mock-node">
+                          <i class="fa-regular fa-caret-right fa-fw color-grey"></i>
+                          <i class="fa-regular fa-table-columns fa-fw color-gridcolumn"></i>
+                          gcSTART_STOP_ENABLED
+                          <span class="tree_class_name">TGridColumn</span>
+                        </span>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <span class="mock-node">
+                      <i class="fa-regular fa-caret-right fa-fw color-grey"></i>
+                      <i class="fa-regular fa-route fa-fw color-purple"></i>
+                      rtMain
+                      <span class="tree_class_name">TRoute</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span class="mock-node">
+                      <i class="fa-regular fa-caret-right fa-fw color-grey"></i>
+                      <i class="fa-regular fa-comment fa-fw color-brown"></i>
+                      dlgEdit
+                      <span class="tree_class_name">TDialog</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span class="mock-node">
+                      <i class="fa-regular fa-caret-right fa-fw color-grey"></i>
+                      <i class="fa-regular fa-circle-play fa-fw color-control"></i>
+                      btnSave
+                      <span class="tree_class_name">TButton</span>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== RIGHT FRAME ========== -->
+    <div id="right_frame">
+      <div class="content">
+        <div class="placeholder-note">
+          <strong>Right pane — unchanged in sub-project 1.</strong>
+          <br><br>
+          The per-component-type tab strip (legacy <code>.nav-tabs</code> blue-block
+          active style), property/event/method tables, and the entity form editor
+          stay exactly as they are today. They are deferred to:
+          <ul style="margin: .5rem 0;">
+            <li>Sub-project 3 — right-pane content (tabs, tables, row buttons)</li>
+            <li>Sub-project 4 — entity form editors</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="mockup-caption">
+  Hover the ⓘ icon on the toolbar to preview the version tooltip.
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Event-delegated tooltip init — the same line the spec adds to TholosEditor.js
+  new bootstrap.Tooltip(document.body, { selector: '[data-bs-toggle="tooltip"]' });
+</script>
+</body>
+</html>
