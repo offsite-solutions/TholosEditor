@@ -1,6 +1,4 @@
-<div class="row">
-  <div class="col-sm-12">
-    <form class="form-horizontal" method="post" role="form" onsubmit="return false;" id="form_$p_id">
+<form class="pf-form" method="post" role="form" onsubmit="return false;" id="form_$p_id">
 <!-- common fields start -->
 <input type="hidden" name="action" value="updateComponentType">
 <input type="hidden" name="p_id" value="$p_id">
@@ -9,9 +7,9 @@
 <input type="hidden" name="p_enabled" value="$p_enabled">
 <!-- common fields end -->
 
-<div class="form-group">
-  <div class="col-sm-3 text-right"><strong>Inherited from</strong></div>
-  <div class="col-sm-9">
+  <div class="pf-field pf-field-readonly">
+    <label>Inherited from</label>
+    <div class="pf-field-value">
 <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_cases
 param=DBSyntax
@@ -36,20 +34,17 @@ select class_name as text
 %SQL%>
 <<
 %FUNC%>
+    </div>
   </div>
-</div>
 
-<div class="form-group">
-  <label for="p_class_name" class="col-sm-3 control-label no-padding-right">Class name</label>
-  <div class="col-sm-9">
+  <div class="pf-field">
+    <label for="p_class_name">Class name</label>
     <input class="form-control" name="p_class_name" id="p_class_name" value="$p_class_name">
   </div>
-</div>
 
-<div class="form-group">
-  <label for="p_parent_component_type_id" class="col-sm-3 control-label no-padding-right">Parent must be</label>
-  <div class="col-sm-9">
-    <select class="form-control" name="p_parent_component_type_id" id="p_parent_component_type_id">
+  <div class="pf-field">
+    <label for="p_parent_component_type_id">Parent must be</label>
+    <select class="form-select" name="p_parent_component_type_id" id="p_parent_component_type_id">
 <option value=""></option>
 <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_cases
@@ -100,21 +95,13 @@ SELECT ctx.hierarchy || ct2.id,
 %FUNC%>
     </select>
   </div>
-</div>
 
-<div class="form-group">
-  <label for="p_description" class="col-sm-3 control-label no-padding-right">Description</label>
-  <div class="col-sm-9">
+  <div class="pf-field">
+    <label for="p_description">Description</label>
     <textarea class="form-control" name="p_description" id="p_description" rows="10">$p_description</textarea>
   </div>
-</div>
 
-      <hr>
-      <div class="row">
-        <div class="col-sm-12 text-center">
-          <button class="btn btn-primary" onclick="doUpdateComponentType($p_id,$('#tab_$p_id #p_class_name').val());">Save</button>
-        </div>
-      </div>
-    </form>
+  <div class="pf-form-footer">
+    <button class="btn btn-primary" type="button" onclick="doUpdateComponentType($p_id,$('#tab_$p_id #p_class_name').val());">Save</button>
   </div>
-</div>
+</form>

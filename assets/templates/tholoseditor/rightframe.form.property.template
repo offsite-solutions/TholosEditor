@@ -1,6 +1,4 @@
-<div class="row">
-  <div class="col-sm-12">
-    <form class="form-horizontal" method="post" role="form" onsubmit="return false;" id="property_form_$p_linked_component_type_id">
+<form class="pf-form" method="post" role="form" onsubmit="return false;" id="property_form_$p_linked_component_type_id">
 <!-- common fields start -->
 <input type="hidden" name="action" value="saveProperty">
 <input type="hidden" name="p_id" value="$p_id">
@@ -9,17 +7,14 @@
 <input type="hidden" name="p_enabled" value="Y">
 <!-- common fields end -->
 
-<div class="form-group">
-  <label for="p_name" class="col-sm-2 control-label no-padding-right">Name</label>
-  <div class="col-sm-10">
+  <div class="pf-field">
+    <label for="p_name">Name</label>
     <input class="form-control" name="p_name" id="p_name" value="$p_name">
   </div>
-</div>
 
-<div class="form-group">
-  <label for="p_type" class="col-sm-2 control-label no-padding-right">Type</label>
-  <div class="col-sm-10">
-    <select class="form-control" name="p_type" id="p_type">
+  <div class="pf-field">
+    <label for="p_type">Type</label>
+    <select class="form-select" name="p_type" id="p_type">
 <option value="STRING" [%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=p_type;value=STRING;true=selected;false=%]>STRING</option>
 <option value="NUMBER" [%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=p_type;value=NUMBER;true=selected;false=%]>NUMBER</option>
 <option value="BOOLEAN" [%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=p_type;value=BOOLEAN;true=selected;false=%]>BOOLEAN</option>
@@ -31,12 +26,10 @@
 <option value="COMPONENT" [%_function_name=TholosEditor\TholosEditorCallback::_eqs;param=p_type;value=COMPONENT;true=selected;false=%]>COMPONENT</option>
     </select>
   </div>
-</div>
 
-<div class="form-group">
-  <label for="p_component_type_id" class="col-sm-2 control-label no-padding-right">Component type</label>
-  <div class="col-sm-10">
-    <select class="form-control" name="p_component_type_id" id="p_component_type_id">
+  <div class="pf-field">
+    <label for="p_component_type_id">Component type</label>
+    <select class="form-select" name="p_component_type_id" id="p_component_type_id">
 <option value=""></option>
 <%FUNC%
 _function_name=TholosEditor\TholosEditorCallback::_cases
@@ -87,28 +80,18 @@ SELECT ctx.hierarchy || ct2.id,
 %FUNC%>
     </select>
   </div>
-</div>
 
-<div class="form-group">
-  <label for="p_value_list" class="col-sm-2 control-label no-padding-right">List of values</label>
-  <div class="col-sm-10">
+  <div class="pf-field">
+    <label for="p_value_list">List of values</label>
     <textarea class="form-control" name="p_value_list" id="p_value_list" rows="6">$p_value_list</textarea>
   </div>
-</div>
 
-<div class="form-group">
-  <label for="p_description" class="col-sm-2 control-label no-padding-right">Description</label>
-  <div class="col-sm-10">
+  <div class="pf-field">
+    <label for="p_description">Description</label>
     <textarea class="form-control" name="p_description" id="p_description" rows="2">$p_description</textarea>
   </div>
-</div>
 
-      <hr>
-      <div class="row">
-        <div class="col-sm-12 text-center">
-          <button class="btn btn-primary" onclick="saveProperty($p_linked_component_type_id);">Save</button>
-        </div>
-      </div>
-    </form>
+  <div class="pf-form-footer">
+    <button class="btn btn-primary" type="button" onclick="saveProperty($p_linked_component_type_id);">Save</button>
   </div>
-</div>
+</form>
