@@ -1,6 +1,6 @@
 function showLoading(container_) {
   if (container_ !== undefined)
-    container_.html('<div class="text-center"><i class="fa-regular fa-refresh fa-spin fa-lg"></i></div>');
+    container_.html('<div class="text-center"><i class="fa-regular fa-arrows-rotate fa-spin fa-lg"></i></div>');
   else $('#globalLoading').addClass('fa-spin');
 }
 
@@ -1040,4 +1040,10 @@ $(document).ready(function () {
 
   initRightFrame();
 
+});
+
+// Bootstrap 5 tooltip — event-delegated so AJAX-injected templates
+// pick up tooltips automatically via data-bs-toggle="tooltip".
+new bootstrap.Tooltip(document.body, {
+  selector: '[data-bs-toggle="tooltip"]'
 });
