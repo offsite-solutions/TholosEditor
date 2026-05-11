@@ -16,29 +16,23 @@
 <nav class="te-toolbar">
   <span class="te-brand">
     <span class="te-brand-mark">
-      <img src="$TholosEditorAssetsDir/images/tholos-logo.svg" alt="Tholos" width="22" height="22">
+      <img src="$TholosEditorAssetsDir/images/favicon.png" alt="Tholos" width="18" height="18">
     </span>
     <span class="te-brand-text">Tholos Editor</span>
   </span>
 
-  <div class="te-search input-group input-group-sm">
-    <input type="text" id="searchText" class="form-control" placeholder="Search…">
-    <button class="btn te-toolbar-btn" type="button"
-            onclick="loadComponentTree(true,'#search_result_tree',$('#searchText').val());"
-            title="Search">
-      <i class="fa-regular fa-magnifying-glass"></i>
-    </button>
-  </div>
+  <button class="btn te-toolbar-btn te-toolbar-btn-success" type="button"
+          onclick="createComponentType('','');" title="New component type">
+    <i class="fa-regular fa-square-plus"></i>
+    <span class="te-toolbar-btn-label">New type</span>
+  </button>
 
   <span class="te-toolbar-spacer"></span>
 
-  <button class="btn te-toolbar-btn" type="button"
-          onclick="createComponentType('','');" title="New component type">
-    <i class="fa-regular fa-square-plus"></i>
-  </button>
-  <button class="btn te-toolbar-btn" type="button"
-          onclick="loadComponentTree(true,'#component_tree','');" title="Refresh">
+  <button class="btn te-toolbar-btn te-toolbar-btn-danger" type="button"
+          onclick="loadComponentTree(true,'#component_tree');" title="Refresh">
     <i class="fa-regular fa-arrows-rotate" id="globalLoading"></i>
+    <span class="te-toolbar-btn-label">Refresh</span>
   </button>
   <button class="btn te-toolbar-btn" type="button"
           data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"

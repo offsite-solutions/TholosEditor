@@ -19,7 +19,7 @@ function refreshLeftFrame() {
     success: function (data) {
       if (data.success === 'OK') {
         $('#left_frame').find('.content').html(data.html);
-        loadComponentTree(true, '#component_tree', '');
+        loadComponentTree(true, '#component_tree');
       } else {
 
       }
@@ -74,7 +74,7 @@ function deleteComponentType(id_, version_) {
           tab.removeBSTab();
           initEditorTabs();
         } else
-          loadComponentTree(true, '#component_tree', '');
+          loadComponentTree(true, '#component_tree');
       } else {
         bootbox.alert(data.errormsg);
       }
@@ -95,7 +95,7 @@ function doUpdateComponentType(id_, name_) {
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {
       if (data.success === 'OK') {
-        loadComponentTree(true, '#component_tree', '');
+        loadComponentTree(true, '#component_tree');
         openComponentType(id_, name_);
       } else {
         bootbox.alert(data.errormsg);
@@ -117,7 +117,7 @@ function doCreateComponentType(ancestor_id_, class_name_) {
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {
       if (data.success === 'OK') {
-        loadComponentTree(true, '#component_tree', '');
+        loadComponentTree(true, '#component_tree');
       } else {
         bootbox.alert(data.errormsg);
       }
@@ -141,15 +141,14 @@ function createComponentType(ancestor_id_, ancestor_class_name_) {
   });
 }
 
-function loadComponentTree(full, treeid_, searchtext_) {
+function loadComponentTree(full, treeid_) {
   showLoading();
   $.ajax({
     url: __TholosEditorAppUrl,
     type: 'post',
     dataType: 'json',
     data: {
-      'action': 'loadComponentTree',
-      'searchText': searchtext_
+      'action': 'loadComponentTree'
     },
     contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     success: function (data) {

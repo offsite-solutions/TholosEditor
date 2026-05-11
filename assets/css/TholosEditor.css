@@ -110,21 +110,7 @@ a {
   white-space: nowrap;
 }
 
-#components {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  padding: 0px;
-}
-
 #component_tree {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  padding-left: 0px;
-}
-
-#search_result_tree {
   height: 100%;
   width: 100%;
   overflow: auto;
@@ -251,14 +237,14 @@ div.checkbox {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background: #fff;
   border-radius: 4px;
 }
 .te-brand-mark img {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   display: block;
 }
 .te-brand-text {
@@ -304,6 +290,33 @@ div.checkbox {
 .te-toolbar-btn:focus-visible {
   outline: 2px solid rgba(255,255,255,.4);
   outline-offset: 1px;
+}
+/* Labeled toolbar buttons (success/danger) — icon + visible text. */
+.te-toolbar-btn-label {
+  margin-left: .35rem;
+  font-weight: 600;
+}
+.te-toolbar-btn.te-toolbar-btn-success {
+  background: var(--te-success);
+  border: 1px solid var(--te-success);
+  color: #fff;
+  padding: .1rem .65rem;
+}
+.te-toolbar-btn.te-toolbar-btn-success:hover {
+  background: #76a31c;
+  border-color: #76a31c;
+  color: #fff;
+}
+.te-toolbar-btn.te-toolbar-btn-danger {
+  background: #dc3545;
+  border: 1px solid #dc3545;
+  color: #fff;
+  padding: .1rem .65rem;
+}
+.te-toolbar-btn.te-toolbar-btn-danger:hover {
+  background: #bb2d3b;
+  border-color: #bb2d3b;
+  color: #fff;
 }
 /* Search button is inside the input-group, so it adopts a
    form-control-bordered look instead of the toolbar-btn look. */
