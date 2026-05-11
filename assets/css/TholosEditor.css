@@ -88,32 +88,6 @@ a {
   background-color: #c0d7e8;
 }
 
-/* left frame */
-
-#x-portalinfo_container {
-  position: absolute;
-  width: 100%;
-}
-
-#portalinfo_container .logo {
-  background-color: #3d6c91;
-  color: #fff;
-  font-size: 14pt;
-  padding-left: 5px;
-}
-
-#portalinfo_container .portal-info {
-  background-color: #8cb0cb;
-  color: #fff;
-  font-size: 10px;
-  padding-left: 5px;
-}
-
-#options_container {
-  margin-bottom: 0px;
-  padding: 3px;
-}
-
 /* template tree */
 
 #component_tree_container {
@@ -138,35 +112,12 @@ a {
   padding-left: 0px;
 }
 
-#component_tree .folder {
-  background: url('/assets/images/file_sprite.png') right bottom no-repeat;
-}
-
-#component_tree .file {
-  background: url('/assets/images/file_sprite.png') 0 0 no-repeat;
-}
-
 #search_result_tree {
   height: 100%;
   width: 100%;
   overflow: auto;
   padding-left: 0px;
 }
-
-#search_result_tree .folder {
-  background: url('/assets/images/file_sprite.png') right bottom no-repeat;
-}
-
-#search_result_tree .file {
-  background: url('/assets/images/file_sprite.png') 0 0 no-repeat;
-}
-
-/* .nav-tabs > li > a {
-  padding: 5px;
-  font-size: 12px;
-}
-
- */
 
 .nav-tabs .nav-link {
   color: #337ab7;
