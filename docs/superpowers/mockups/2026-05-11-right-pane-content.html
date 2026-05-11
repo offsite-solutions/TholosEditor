@@ -130,16 +130,65 @@
     #componentTabs_container { height: 100%; overflow: hidden; }
     .tab-content { height: calc(100% - 32px); overflow: auto; }
     .tab-pane { height: 100%; }
-    .componentData_container { padding: 10px; width: 100%; }
-    .componentData_container > [class^="col-"] {
-      border-right: 1px solid var(--te-border);
-      padding: 0 10px;
+    .componentData_container {
+      padding: 10px;
+      width: 100%;
+      background: var(--te-pane-bg);
+      min-height: 100%;
     }
-    .componentData_container p.title {
-      font-size: 11px; font-weight: 600;
-      color: var(--te-text-muted);
-      letter-spacing: .04em; text-transform: uppercase;
-      margin: 12px 0 4px 0;
+    .componentData_container > [class^="col-"] {
+      padding: 0 6px;
+    }
+
+    /* === .pf-card — section wrapper.
+       Ported from builder's .wiz-card pattern, scoped to prop-editor surface. === */
+    .pf-card {
+      background: var(--te-surface);
+      border: 1px solid var(--te-border);
+      border-radius: .35rem;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .pf-card .card-header {
+      background-color: var(--te-pane-bg);
+      border-bottom: 1px solid var(--te-border);
+      padding: .35rem .55rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .pf-card .card-header .pf-card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--te-primary);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      flex: 0 0 auto;
+    }
+    .pf-card .card-header .pf-card-title .svg-inline--fa,
+    .pf-card .card-header .pf-card-title .fa-regular,
+    .pf-card .card-header .pf-card-title .fa-solid {
+      color: var(--te-primary);
+      font-size: 12px;
+    }
+    .pf-card .card-header .pf-add-row {
+      flex: 1 1 auto;
+      margin-left: auto;
+      margin-bottom: 0;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+    .pf-card .card-body {
+      padding: 0;
+    }
+    .pf-card .card-body > .pf-table {
+      border: 0;
+    }
+    .pf-card .card-body > .pf-table thead th:first-child { padding-left: .55rem; }
+    .pf-card .card-body > .pf-table tbody tr:last-child td {
+      border-bottom: 0;
     }
 
     /* === pf-table — port from builder spec §3.2 === */
@@ -198,22 +247,37 @@
       background: #e9ecef; border-color: #ced4da; color: var(--te-text);
     }
 
-    /* Add-row controls atop each column */
-    .pf-add-row { display: flex; gap: .35rem; align-items: center; margin-bottom: 4px; }
-    .pf-add-row select.form-select-sm {
-      font-size: 12px; height: 26px; padding: .15rem .5rem; flex: 1 1 auto;
+    /* Add-row picker — lives in the card header on the right. */
+    .pf-add-row {
+      display: flex;
+      gap: .25rem;
+      align-items: center;
+      max-width: 200px;
+    }
+    .pf-add-row .form-select {
+      font-size: 11px;
+      height: 24px;
+      min-height: 0;
+      padding: .1rem 1.5rem .1rem .4rem;
+      border-color: var(--te-border);
+      flex: 1 1 auto;
+      min-width: 0;
     }
     .pf-add-row .btn {
-      --bs-btn-padding-x: .45rem; --bs-btn-padding-y: .15rem;
-      --bs-btn-font-size: 12px;
-      color: var(--te-text-muted); background: var(--te-surface);
+      --bs-btn-padding-x: .35rem;
+      --bs-btn-padding-y: .05rem;
+      --bs-btn-font-size: 11px;
+      --bs-btn-line-height: 1;
+      height: 24px;
+      color: var(--te-text-muted);
+      background: var(--te-surface);
       border: 1px solid var(--te-border);
+      flex: 0 0 auto;
     }
     .pf-add-row .btn:hover {
-      background: var(--te-border-soft); color: var(--te-primary);
+      background: var(--te-border-soft);
+      color: var(--te-primary);
     }
-
-    .editor-col .pf-add-row { justify-content: flex-end; margin-bottom: 8px; }
 
     /* Mockup chrome */
     .mockup-badge {
@@ -299,155 +363,202 @@
 
                 <!-- Properties column -->
                 <div class="col-md-4">
-                  <div class="pf-add-row">
-                    <select class="form-select form-select-sm">
-                      <option>* New</option>
-                      <option>id : STRING</option>
-                      <option>visible : BOOLEAN</option>
-                    </select>
-                    <button class="btn" title="Add new property"><i class="fa-regular fa-square-plus"></i></button>
+                  <div class="pf-card">
+                    <div class="card-header">
+                      <h5 class="pf-card-title"><i class="fa-regular fa-rectangle-list"></i>Properties</h5>
+                      <div class="pf-add-row">
+                        <select class="form-select form-select-sm">
+                          <option>* New property…</option>
+                          <option>id : STRING</option>
+                          <option>visible : BOOLEAN</option>
+                        </select>
+                        <button class="btn" title="Add new property"><i class="fa-regular fa-square-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table class="pf-table">
+                        <thead>
+                          <tr>
+                            <th style="width: 22%;">&nbsp;</th>
+                            <th style="width: 38%;">Name</th>
+                            <th style="width: 30%;">Type</th>
+                            <th style="width: 10%;">&nbsp;</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="prop_mandatory">
+                            <td class="prop_toggles">
+                              <a href="#" title="Disable"><i class="fa-regular fa-check-square"></i></a>
+                              <a href="#" title="Mandatory"><i class="fa-regular fa-exclamation-circle"></i></a>
+                              <a href="#" title="Runtime"><i class="fa-regular fa-square"></i></a>
+                              <a href="#" title="No hidden data"><i class="fa-regular fa-code"></i></a>
+                            </td>
+                            <td><a href="#">id</a></td>
+                            <td>STRING</td>
+                            <td>
+                              <span class="pf-row-actions">
+                                <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="prop_toggles">
+                              <a href="#"><i class="fa-regular fa-check-square"></i></a>
+                              <a href="#"><i class="fa-regular fa-circle"></i></a>
+                              <a href="#"><i class="fa-regular fa-square"></i></a>
+                              <a href="#"><i class="fa-regular fa-code"></i></a>
+                            </td>
+                            <td>
+                              <a href="#">visible</a>
+                              <div class="ancestor">from <a href="#">TComponent</a></div>
+                            </td>
+                            <td>BOOLEAN<br>true</td>
+                            <td>
+                              <span class="pf-row-actions">
+                                <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr class="is-selected">
+                            <td class="prop_toggles">
+                              <a href="#"><i class="fa-regular fa-check-square"></i></a>
+                              <a href="#"><i class="fa-regular fa-circle"></i></a>
+                              <a href="#"><i class="fa-regular fa-square-caret-right"></i></a>
+                              <a href="#"><i class="fa-regular fa-code"></i></a>
+                            </td>
+                            <td><a href="#">data_source</a></td>
+                            <td>COMPONENT<br>TQuery</td>
+                            <td>
+                              <span class="pf-row-actions">
+                                <button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button>
+                                <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr class="prop_disabled">
+                            <td class="prop_toggles">
+                              <a href="#"><i class="fa-regular fa-square"></i></a>
+                              <a href="#"><i class="fa-regular fa-circle"></i></a>
+                              <a href="#"><i class="fa-regular fa-square"></i></a>
+                              <a href="#"><i class="fa-regular fa-ban"></i></a>
+                            </td>
+                            <td>legacy_attr</td>
+                            <td>STRING</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <p class="title">Properties</p>
-                  <table class="pf-table">
-                    <thead>
-                      <tr>
-                        <th style="width: 22%;">&nbsp;</th>
-                        <th style="width: 38%;">Name</th>
-                        <th style="width: 30%;">Type</th>
-                        <th style="width: 10%;">&nbsp;</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr class="prop_mandatory">
-                        <td class="prop_toggles">
-                          <a href="#" title="Disable"><i class="fa-regular fa-check-square"></i></a>
-                          <a href="#" title="Mandatory"><i class="fa-regular fa-exclamation-circle"></i></a>
-                          <a href="#" title="Runtime"><i class="fa-regular fa-square"></i></a>
-                          <a href="#" title="No hidden data"><i class="fa-regular fa-code"></i></a>
-                        </td>
-                        <td><a href="#">id</a></td>
-                        <td>STRING</td>
-                        <td>
-                          <span class="pf-row-actions">
-                            <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
-                          </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="prop_toggles">
-                          <a href="#"><i class="fa-regular fa-check-square"></i></a>
-                          <a href="#"><i class="fa-regular fa-circle"></i></a>
-                          <a href="#"><i class="fa-regular fa-square"></i></a>
-                          <a href="#"><i class="fa-regular fa-code"></i></a>
-                        </td>
-                        <td>
-                          <a href="#">visible</a>
-                          <div class="ancestor">from <a href="#">TComponent</a></div>
-                        </td>
-                        <td>BOOLEAN<br>true</td>
-                        <td>
-                          <span class="pf-row-actions">
-                            <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
-                          </span>
-                        </td>
-                      </tr>
-                      <tr class="is-selected">
-                        <td class="prop_toggles">
-                          <a href="#"><i class="fa-regular fa-check-square"></i></a>
-                          <a href="#"><i class="fa-regular fa-circle"></i></a>
-                          <a href="#"><i class="fa-regular fa-square-caret-right"></i></a>
-                          <a href="#"><i class="fa-regular fa-code"></i></a>
-                        </td>
-                        <td><a href="#">data_source</a></td>
-                        <td>COMPONENT<br>TQuery</td>
-                        <td>
-                          <span class="pf-row-actions">
-                            <button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button>
-                            <button class="btn" title="Default value"><i class="fa-regular fa-at"></i></button>
-                          </span>
-                        </td>
-                      </tr>
-                      <tr class="prop_disabled">
-                        <td class="prop_toggles">
-                          <a href="#"><i class="fa-regular fa-square"></i></a>
-                          <a href="#"><i class="fa-regular fa-circle"></i></a>
-                          <a href="#"><i class="fa-regular fa-square"></i></a>
-                          <a href="#"><i class="fa-regular fa-ban"></i></a>
-                        </td>
-                        <td>legacy_attr</td>
-                        <td>STRING</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>
                 </div>
 
-                <!-- Events column -->
+                <!-- Events column — three stacked event cards -->
                 <div class="col-md-3">
-                  <div class="pf-add-row">
-                    <select class="form-select form-select-sm">
-                      <option>* New</option>
-                      <option>onLoad : GUI</option>
-                    </select>
-                    <button class="btn" title="Add new event"><i class="fa-regular fa-square-plus"></i></button>
+                  <div class="pf-card">
+                    <div class="card-header">
+                      <h5 class="pf-card-title"><i class="fa-regular fa-code"></i>PHP events</h5>
+                      <div class="pf-add-row">
+                        <select class="form-select form-select-sm">
+                          <option>* New event…</option>
+                        </select>
+                        <button class="btn" title="Add new event"><i class="fa-regular fa-square-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table class="pf-table">
+                        <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
+                        <tbody>
+                          <tr><td><a href="#">onBeforeRender</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                          <tr><td>onAfterRender<div class="ancestor">from <a href="#">TComponent</a></div></td><td></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
 
-                  <p class="title">PHP events</p>
-                  <table class="pf-table">
-                    <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
-                    <tbody>
-                      <tr><td><a href="#">onBeforeRender</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
-                      <tr><td>onAfterRender<div class="ancestor">from <a href="#">TComponent</a></div></td><td></td></tr>
-                    </tbody>
-                  </table>
+                  <div class="pf-card">
+                    <div class="card-header">
+                      <h5 class="pf-card-title"><i class="fa-regular fa-database"></i>Database events</h5>
+                      <div class="pf-add-row">
+                        <select class="form-select form-select-sm">
+                          <option>* New event…</option>
+                        </select>
+                        <button class="btn" title="Add new event"><i class="fa-regular fa-square-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table class="pf-table">
+                        <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
+                        <tbody>
+                          <tr><td><a href="#">onLoadData</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
 
-                  <p class="title">Database events</p>
-                  <table class="pf-table">
-                    <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
-                    <tbody>
-                      <tr><td><a href="#">onLoadData</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
-                    </tbody>
-                  </table>
-
-                  <p class="title">GUI events</p>
-                  <table class="pf-table">
-                    <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
-                    <tbody>
-                      <tr><td><a href="#">onRowClick</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
-                      <tr><td><a href="#">onSortChange</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
-                    </tbody>
-                  </table>
+                  <div class="pf-card">
+                    <div class="card-header">
+                      <h5 class="pf-card-title"><i class="fa-regular fa-display"></i>GUI events</h5>
+                      <div class="pf-add-row">
+                        <select class="form-select form-select-sm">
+                          <option>* New event…</option>
+                        </select>
+                        <button class="btn" title="Add new event"><i class="fa-regular fa-square-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table class="pf-table">
+                        <thead><tr><th style="width: 78%;">Name</th><th style="width: 22%;">&nbsp;</th></tr></thead>
+                        <tbody>
+                          <tr><td><a href="#">onRowClick</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                          <tr><td><a href="#">onSortChange</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Methods column -->
                 <div class="col-md-2">
-                  <div class="pf-add-row">
-                    <select class="form-select form-select-sm">
-                      <option>* New</option>
-                    </select>
-                    <button class="btn" title="Add new method"><i class="fa-regular fa-square-plus"></i></button>
+                  <div class="pf-card">
+                    <div class="card-header">
+                      <h5 class="pf-card-title"><i class="fa-regular fa-code-branch"></i>Methods</h5>
+                      <div class="pf-add-row">
+                        <select class="form-select form-select-sm">
+                          <option>* New method…</option>
+                        </select>
+                        <button class="btn" title="Add new method"><i class="fa-regular fa-square-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <table class="pf-table">
+                        <thead><tr><th style="width: 75%;">Name</th><th style="width: 25%;">&nbsp;</th></tr></thead>
+                        <tbody>
+                          <tr><td><a href="#">refreshData</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
+                          <tr><td>render<div class="ancestor">from <a href="#">TComponent</a></div></td><td></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <p class="title">Methods</p>
-                  <table class="pf-table">
-                    <thead><tr><th style="width: 75%;">Name</th><th style="width: 25%;">&nbsp;</th></tr></thead>
-                    <tbody>
-                      <tr><td><a href="#">refreshData</a></td><td><span class="pf-row-actions"><button class="btn" title="Remove"><i class="fa-regular fa-trash-can"></i></button></span></td></tr>
-                      <tr><td>render<div class="ancestor">from <a href="#">TComponent</a></div></td><td></td></tr>
-                    </tbody>
-                  </table>
                 </div>
 
                 <!-- Editor (form) column — sub-project 4 -->
                 <div class="col-md-3 editor-col">
-                  <div class="pf-add-row">
-                    <span class="text-muted" style="font-size: 11px;">Component type editor</span>
-                    <button class="btn" title="Refresh"><i class="fa-regular fa-arrows-rotate"></i></button>
-                  </div>
-                  <p class="title">Editor</p>
-                  <div class="form-placeholder">
-                    Entity-form pane (Name / Type / Component type / List of values / Description fields).
-                    <br><br>
-                    <strong>Sub-project 4</strong> restyles this column. Sub-project 3 leaves it untouched.
+                  <div class="pf-card">
+                    <div class="card-header">
+                      <h5 class="pf-card-title"><i class="fa-regular fa-pen-to-square"></i>Editor</h5>
+                      <button class="btn pf-add-row-btn" title="Refresh" style="
+                        --bs-btn-padding-x: .35rem; --bs-btn-padding-y: .05rem;
+                        --bs-btn-font-size: 11px; height: 24px;
+                        color: var(--te-text-muted); background: var(--te-surface);
+                        border: 1px solid var(--te-border);"><i class="fa-regular fa-arrows-rotate"></i></button>
+                    </div>
+                    <div class="card-body" style="padding: .65rem;">
+                      <div class="form-placeholder">
+                        Entity-form pane (Name / Type / Component type / List of values / Description fields).
+                        <br><br>
+                        <strong>Sub-project 4</strong> restyles this column with a consistent `.pf-card` body. Sub-project 3 leaves the inner form alone.
+                      </div>
+                    </div>
                   </div>
                 </div>
 
