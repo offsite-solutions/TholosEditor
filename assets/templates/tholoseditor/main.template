@@ -13,6 +13,40 @@
   <link rel="stylesheet" href="$TholosEditorAssetsDir/css/TholosEditor.css"/>
 </head>
 <body>
+<nav class="te-toolbar">
+  <span class="te-brand">
+    <span class="te-brand-mark">
+      <img src="$TholosEditorAssetsDir/images/tholos-logo.svg" alt="Tholos" width="22" height="22">
+    </span>
+    <span class="te-brand-text">Tholos Editor</span>
+  </span>
+
+  <div class="te-search input-group input-group-sm">
+    <input type="text" id="searchText" class="form-control" placeholder="Search…">
+    <button class="btn te-toolbar-btn" type="button"
+            onclick="loadComponentTree(true,'#search_result_tree',$('#searchText').val());"
+            title="Search">
+      <i class="fa-regular fa-magnifying-glass"></i>
+    </button>
+  </div>
+
+  <span class="te-toolbar-spacer"></span>
+
+  <button class="btn te-toolbar-btn" type="button"
+          onclick="createComponentType('','');" title="New component type">
+    <i class="fa-regular fa-square-plus"></i>
+  </button>
+  <button class="btn te-toolbar-btn" type="button"
+          onclick="loadComponentTree(true,'#component_tree','');" title="Refresh">
+    <i class="fa-regular fa-arrows-rotate" id="globalLoading"></i>
+  </button>
+  <button class="btn te-toolbar-btn" type="button"
+          data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+          data-bs-title="<div class='te-info-tip'><div>$MainAddress</div><div>DB: <b>$DBSyntax</b></div><div>App: <b>$AppVersion</b> (dev: $devVersion)</div></div>"
+          title="Connection info">
+    <i class="fa-regular fa-circle-info"></i>
+  </button>
+</nav>
 <div id="wrapper" class="container-fluid">
   <div id="container">
     <div id="left_frame" class="resizable">

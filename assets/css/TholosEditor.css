@@ -36,10 +36,11 @@ a {
 }
 
 #wrapper {
-  height: 100%;
+  height: calc(100% - 38px);
   margin: 0px;
   padding: 0px;
   position: absolute;
+  top: 38px;
   width: 100%;
 }
 
@@ -116,12 +117,11 @@ a {
 /* template tree */
 
 #component_tree_container {
-  position: absolute;
-  top: 100px;
-  height: calc(100% - 100px);
+  height: 100%;
   width: 100%;
-  padding: 0px;
-  background-color: #fff;
+  padding: 0;
+  background-color: var(--te-surface);
+  overflow: auto;
 }
 
 #components {
