@@ -26,13 +26,20 @@
     }
 
     /* ============================================================
-       App shell (faithful to editor's current main.template)
+       App shell — toolbar is FULL-WIDTH above the two-pane layout,
+       matching builder's .tb-navbar pattern.
        ============================================================ */
     html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
     html, body, td, th { font-size: 9pt; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 
-    #wrapper { position: absolute; inset: 0; }
+    #wrapper {
+      position: absolute;
+      width: 100%;
+      height: calc(100% - 38px);   /* was: 100% — shrunk to clear toolbar */
+      top: 38px;
+      left: 0;
+    }
     #container { display: flex; height: 100%; }
     #left_frame  { width: 24%; min-width: 280px; border-right: 1px solid var(--te-border); }
     #right_frame { flex: 1; }
@@ -40,24 +47,20 @@
     #right_frame > .content { height: 100%; }
 
     /* ============================================================
-       NEW — Left-pane toolbar (.te-toolbar)
+       NEW — Top toolbar (.te-toolbar) — full window width
        ============================================================ */
-    #left_frame .content {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-      padding: 0;
-    }
-
     .te-toolbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 38px;
       display: flex;
       align-items: center;
       gap: .35rem;
-      min-height: 38px;
-      padding: .25rem .5rem;
+      padding: .25rem .65rem;
       background-color: var(--te-dark);
-      flex: 0 0 auto;
+      z-index: 10;
     }
 
     .te-brand {
@@ -69,14 +72,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       background: #fff;
       border-radius: 4px;
     }
-    .te-brand-mark img { width: 18px; height: 18px; display: block; }
+    .te-brand-mark img { width: 22px; height: 22px; display: block; }
     .te-brand-text {
-      margin-left: .4rem;
+      margin-left: .5rem;
       color: #fff;
       font-size: 13px;
       font-weight: 600;
@@ -84,8 +87,9 @@
     }
 
     .te-search {
-      flex: 0 1 240px;
-      min-width: 140px;
+      flex: 0 1 280px;
+      min-width: 160px;
+      margin-left: .5rem;
     }
     .te-search .form-control {
       font-size: 12px;
@@ -118,7 +122,7 @@
       outline: 2px solid rgba(255,255,255,.4);
       outline-offset: 1px;
     }
-    /* Search button merged into the input-group */
+    /* Search button merged into the input-group — picks up form-control look */
     .te-search .te-toolbar-btn {
       border: 1px solid var(--bs-border-color);
       border-left: 0;
@@ -140,12 +144,12 @@
     .te-info-tip b { font-weight: 600; }
 
     /* ============================================================
-       Tree container (geometry change in sub-project 1; visual
-       look stays legacy until sub-project 2)
+       Tree container (geometry change; visual look stays legacy
+       until sub-project 2)
        ============================================================ */
+    #left_frame .content { padding: 0; }
     #component_tree_container {
-      flex: 1 1 auto;
-      min-height: 0;
+      height: 100%;
       width: 100%;
       padding: 0;
       background-color: var(--te-surface);
@@ -208,6 +212,7 @@
       padding: 12px;
       color: var(--te-text-muted);
       font-size: 12px;
+      overflow: auto;
     }
     .placeholder-note {
       background: var(--te-pane-bg);
@@ -221,7 +226,7 @@
        ============================================================ */
     .mockup-badge {
       position: fixed;
-      top: 10px; right: 12px;
+      top: 46px; right: 12px;
       z-index: 9999;
       background: var(--te-success);
       color: #1a2e0a;
@@ -241,23 +246,43 @@
       color: var(--te-text-muted);
       pointer-events: none;
     }
-    .annotate {
-      position: relative;
-    }
-    .annotate::after {
-      content: attr(data-annotate);
-      position: absolute;
-      bottom: -1.4em;
-      left: 0;
-      font-size: 9px;
-      color: var(--te-text-dim);
-      letter-spacing: .04em;
-      white-space: nowrap;
-      pointer-events: none;
-    }
   </style>
 </head>
 <body>
+
+<!-- ========== TOP TOOLBAR (full window width) ========== -->
+<nav class="te-toolbar">
+  <span class="te-brand">
+    <span class="te-brand-mark">
+      <img src="../../../assets/images/tholos-logo.svg" alt="Tholos" width="22" height="22">
+    </span>
+    <span class="te-brand-text">Tholos Editor</span>
+  </span>
+
+  <div class="te-search input-group input-group-sm">
+    <input type="text" class="form-control" placeholder="Search…">
+    <button class="btn te-toolbar-btn" type="button" title="Search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </div>
+
+  <span class="te-toolbar-spacer"></span>
+
+  <button class="btn te-toolbar-btn" type="button" title="New component type">
+    <i class="fa-solid fa-square-plus"></i>
+  </button>
+  <button class="btn te-toolbar-btn" type="button" title="Refresh">
+    <i class="fa-solid fa-arrows-rotate" id="globalLoading"></i>
+  </button>
+  <button class="btn te-toolbar-btn" type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          data-bs-html="true"
+          data-bs-title="<div class='te-info-tip'><div>https://demo.tholos.example/app</div><div>DB: <b>pgsql</b></div><div>App: <b>2.4.1</b> (dev: r783)</div></div>"
+          title="Connection info">
+    <i class="fa-solid fa-circle-info"></i>
+  </button>
+</nav>
 
 <div class="mockup-badge">Mockup · sub-project 1</div>
 
@@ -267,48 +292,6 @@
     <!-- ========== LEFT FRAME ========== -->
     <div id="left_frame">
       <div class="content">
-
-        <!-- NEW TOOLBAR -->
-        <nav class="te-toolbar">
-          <span class="te-brand">
-            <span class="te-brand-mark">
-              <!-- inline SVG stand-in for favicon.png -->
-              <svg width="18" height="18" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="6"  width="26" height="4" fill="#88bd21"/>
-                <rect x="6" y="13" width="20" height="3" fill="#236499"/>
-                <rect x="9" y="19" width="14" height="3" fill="#236499"/>
-                <rect x="12" y="25" width="8" height="3" fill="#88bd21"/>
-              </svg>
-            </span>
-            <span class="te-brand-text">Tholos Editor</span>
-          </span>
-
-          <div class="te-search input-group input-group-sm">
-            <input type="text" class="form-control" placeholder="Search…">
-            <button class="btn te-toolbar-btn" type="button" title="Search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </div>
-
-          <span class="te-toolbar-spacer"></span>
-
-          <button class="btn te-toolbar-btn" type="button" title="New component type">
-            <i class="fa-solid fa-square-plus"></i>
-          </button>
-          <button class="btn te-toolbar-btn" type="button" title="Refresh">
-            <i class="fa-solid fa-arrows-rotate" id="globalLoading"></i>
-          </button>
-          <button class="btn te-toolbar-btn" type="button"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-html="true"
-                  data-bs-title="<div class='te-info-tip'><div>https://demo.tholos.example/app</div><div>DB: <b>pgsql</b></div><div>App: <b>2.4.1</b> (dev: r783)</div></div>"
-                  title="Connection info">
-            <i class="fa-solid fa-circle-info"></i>
-          </button>
-        </nav>
-
-        <!-- TREE CONTAINER (geometry change only; legacy visual on purpose) -->
         <div id="component_tree_container">
 
           <!-- legacy tab strip with current blue-block active style — intentional -->

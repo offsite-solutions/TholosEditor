@@ -1,4 +1,4 @@
-# UI Redesign — Foundation, Palette Tokens, Left-Pane Toolbar
+# UI Redesign — Foundation, Palette Tokens, Top Toolbar
 
 **Date:** 2026-05-11
 **Branch:** `feature/ui-redesign`
@@ -30,12 +30,13 @@ reusable utility classes (`.pf-tabs`, `.pf-table`, `.pf-list-row`,
 the first of four sub-projects on the editor that port that visual language to
 this repo's surface area.
 
-Editor's surface is narrower than builder's — no login screen, no top app-wide
-navbar, no wizards, no Build/Compile/Docs/Routes actions. The closest analog
-to builder's `.tb-navbar` sub-project on this app is **the left-pane header
-strip**, which this spec collapses into a single compact toolbar and uses as
-the vehicle for introducing palette tokens and dead-code cleanup that the
-remaining three sub-projects will rely on.
+Editor's surface is narrower than builder's — no login screen, no wizards,
+no Build/Compile/Docs/Routes actions — but the **top toolbar** is a direct
+analog of builder's `.tb-navbar`. This spec replaces the left-pane two-strip
+header with a **full-width 38px toolbar above the two-pane layout**, modeled
+on builder's navbar pattern, and uses it as the vehicle for introducing
+palette tokens and dead-code cleanup that the remaining three sub-projects
+will rely on.
 
 ## 2. Scope
 
@@ -43,10 +44,17 @@ remaining three sub-projects will rely on.
 
 - Introduce a `:root` palette token block covering every color token the four
   sub-projects will reference (not just the toolbar's own colors).
-- Replace `#portalinfo_container` + `#options_container` with a single
-  `<nav class="te-toolbar">` 38px strip at the top of `#left_frame .content`.
-- Restructure `#left_frame .content` as a flex column so the tree fills the
-  remaining height — removes the hard-coded `top: 100px` offset.
+- Insert a full-width `<nav class="te-toolbar">` 38px strip at the top of
+  `main.template`, above `#wrapper`. Shrink `#wrapper` to
+  `height: calc(100% - 38px)` so the existing two-pane layout sits below.
+- Remove `#portalinfo_container` and `#options_container` from
+  `leftframe.main.template`. Their actions (search, new, refresh, version
+  info) move into the new top toolbar.
+- Drop the hard-coded `top: 100px` offset on `#component_tree_container` so
+  the tree fills its pane cleanly.
+- Add the Tholos logo as an SVG asset (`assets/images/tholos-logo.svg`,
+  copied from the sibling builder repo) and use it as the toolbar brand mark
+  in place of the raster `favicon.png`.
 - Move the always-visible version info (`$MainAddress`, `$DBSyntax`,
   `$AppVersion`, `$devVersion`) into a hover tooltip on a new info icon.
 - Dead-code cleanup in `assets/css/TholosEditor.css`:
@@ -81,27 +89,38 @@ remaining three sub-projects will rely on.
 
 ### 3.1 Application shell
 
-The toolbar lives **inside the left pane**, not full-width across the app, so
-that the host application embedding this editor sees no change in overall
-geometry. `main.template` is untouched.
+The toolbar is full-width across the app, sitting above the existing two-pane
+layout — the same pattern the builder ships in its `.tb-navbar` sub-project.
 
 ```
-main.template (unchanged)
-└── #wrapper
+main.template
+├── <nav class="te-toolbar">             ← NEW: 38px full-width dark-gray strip
+└── #wrapper                              ← height: calc(100% - 38px)
     └── #container
         ├── #left_frame.resizable
-        │   └── .content                 ← display: flex; flex-direction: column;
-        │       ├── <nav class="te-toolbar">   ← NEW: 38px dark-gray strip
-        │       └── #component_tree_container  ← flex: 1; overflow: auto;
+        │   └── .content
+        │       └── #component_tree_container  ← height: 100% (no top offset)
         │           └── #components / tabs / jstree (unchanged)
-        └── #right_frame.resizable (unchanged)
+        └── #right_frame.resizable
+            └── .content (unchanged)
 ```
 
-The change to `#component_tree_container` matters: the current CSS uses
-`position: absolute; top: 100px; height: calc(100% - 100px);` to clear the
-fixed-height legacy strips. After this spec, the container is a flex child of
-`.content` and fills whatever space the toolbar leaves. There is no longer a
-hard-coded offset that has to match the strip height.
+Two geometry changes flow from putting the toolbar in `main.template`:
+
+1. **`#wrapper`** changes from `height: 100%` to `height: calc(100% - 38px)`.
+   The two-pane resizable layout now occupies the viewport minus the
+   toolbar.
+2. **`#component_tree_container`** drops `position: absolute; top: 100px;
+   height: calc(100% - 100px)` — that legacy offset existed only to clear the
+   now-gone `#portalinfo_container` + `#options_container` strips. It becomes
+   `height: 100%; width: 100%; overflow: auto`, filling its pane cleanly.
+
+Reasoning: the alternative — keeping the toolbar inside the left pane — was
+considered during brainstorming and chosen first because it preserved the
+host application's embedding geometry. We reversed that decision: visual
+parity with the sibling builder is more valuable than embedding-shape
+preservation, and the host application already accepts builder's toolbar
+geometry alongside this app, so the geometry change is a known quantity.
 
 ### 3.2 Palette tokens
 
@@ -190,9 +209,9 @@ both surfaces move to `.pf-tabs` together.
 | Min height | `38px` |
 | Padding | `.25rem .5rem` |
 | Layout | `display: flex; align-items: center; gap: .35rem;` |
-| Brand mark | favicon at 18px, inside a 24×24 white rounded pill (border-radius 4px) |
+| Brand mark | `tholos-logo.svg` rendered at 22px, inside a 28×28 white rounded pill (border-radius 4px) |
 | Brand text | 13px, weight 600, color `#fff`, margin-left `.4rem` |
-| Search wrapper | `flex: 0 1 240px` (shrinks on narrow panes) |
+| Search wrapper | `flex: 0 1 280px` (shrinks if window narrows) |
 | Search input | Bootstrap `form-control form-control-sm`, font 12px, height 26px |
 | Search button | merged via Bootstrap `input-group` — adopts toolbar-btn style |
 | Spacer | `flex: 1 1 auto` (pushes new/refresh/info to the right) |
@@ -207,7 +226,7 @@ both surfaces move to `.pf-tabs` together.
 <nav class="te-toolbar">
   <span class="te-brand">
     <span class="te-brand-mark">
-      <img src="$TholosEditorAssetsDir/images/favicon.png" alt="">
+      <img src="$TholosEditorAssetsDir/images/tholos-logo.svg" alt="" width="22" height="22">
     </span>
     <span class="te-brand-text">Tholos Editor</span>
   </span>
@@ -240,20 +259,19 @@ both surfaces move to `.pf-tabs` together.
 </nav>
 ```
 
-### 4.3 Left pane geometry
+### 4.3 Shell geometry
 
 ```css
-#left_frame .content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+#wrapper {
+  height: calc(100% - 38px);   /* was: 100% */
+  margin: 0;
   padding: 0;
+  position: absolute;
+  width: 100%;
 }
 
 #component_tree_container {
-  flex: 1 1 auto;
-  min-height: 0;
+  height: 100%;
   width: 100%;
   padding: 0;
   background-color: var(--te-surface);
@@ -262,78 +280,103 @@ both surfaces move to `.pf-tabs` together.
 }
 ```
 
+`#left_frame .content` and `#right_frame .content` are untouched — they
+already declare `height: 100%; overflow: auto`, which now resolves against
+the shrunken `#wrapper`.
+
 ## 5. Files changed
 
 | File | Change |
 |---|---|
-| `assets/templates/tholoseditor/leftframe.main.template` | Replace lines 1–20 (the `#portalinfo_container` and `#options_container` blocks) with the single `<nav class="te-toolbar">…</nav>` block from §4.2. Keep `#component_tree_container` and everything below it intact. |
-| `assets/css/TholosEditor.css` | (a) Prepend `:root { … }` palette tokens (§3.2). (b) Add `.te-toolbar`, `.te-brand`, `.te-brand-mark`, `.te-brand-text`, `.te-search`, `.te-toolbar-btn`, `.te-toolbar-btn:hover`, `.te-toolbar-btn:focus-visible`, `.te-toolbar-spacer`, `.te-info-tip` rule blocks. (c) Rewrite `#left_frame .content` to flex column (§4.3). (d) Rewrite `#component_tree_container` — remove `position: absolute; top: 100px; height: calc(100% - 100px)`, use `flex: 1; min-height: 0; overflow: auto;`. (e) Delete `#component_tree .folder`, `#component_tree .file`, `#search_result_tree .folder`, `#search_result_tree .file` rules (4 blocks). (f) Delete the commented-out `.nav-tabs > li > a` block. (g) Delete `#x-portalinfo_container`, `#portalinfo_container .logo`, `#portalinfo_container .portal-info`, `#options_container` rules. |
+| `assets/templates/tholoseditor/main.template` | Insert `<nav class="te-toolbar">…</nav>` block (§4.2) above `<div id="wrapper">`. No other changes. |
+| `assets/templates/tholoseditor/leftframe.main.template` | Remove lines 1–20 entirely (the `#portalinfo_container` and `#options_container` blocks). The file now starts with `<div id="component_tree_container">`. |
+| `assets/images/tholos-logo.svg` | New file. Copied from the sibling builder repo (`_tholos_builder/Base/.superpowers/brainstorm/offsite_logo_only_v3.svg`). Used as the toolbar brand mark. |
+| `assets/css/TholosEditor.css` | (a) Prepend `:root { … }` palette tokens (§3.2). (b) Add `.te-toolbar`, `.te-brand`, `.te-brand-mark`, `.te-brand-text`, `.te-search`, `.te-toolbar-btn`, `.te-toolbar-btn:hover`, `.te-toolbar-btn:focus-visible`, `.te-toolbar-spacer`, `.te-info-tip` rule blocks. (c) Change `#wrapper { height: 100% }` → `height: calc(100% - 38px)`. (d) Rewrite `#component_tree_container` — remove `position: absolute; top: 100px; height: calc(100% - 100px)`, use `height: 100%; width: 100%; overflow: auto;`. (e) Delete `#component_tree .folder`, `#component_tree .file`, `#search_result_tree .folder`, `#search_result_tree .file` rules (4 blocks). (f) Delete the commented-out `.nav-tabs > li > a` block. (g) Delete `#x-portalinfo_container`, `#portalinfo_container .logo`, `#portalinfo_container .portal-info`, `#options_container` rules. |
 | `assets/js/TholosEditor.js` | Add one initializer near the bottom of the file's startup section: `new bootstrap.Tooltip(document.body, { selector: '[data-bs-toggle="tooltip"]' });` |
 | `assets/images/file_sprite.png` | Delete. Unreferenced after the CSS cleanup. |
 
-No changes to `assets/templates/tholoseditor/main.template`, any `rightframe.*`
-template, `src/TholosEditor/*`, or `vendor/`.
+No changes to any `rightframe.*` template, `src/TholosEditor/*`, or `vendor/`.
 
 ## 6. Behavior changes
 
-1. **Two-strip header collapses into one 38px toolbar.** Net vertical real
-   estate gain in the left pane ≈ 60px (old strips ~98px combined → new
-   toolbar 38px).
-2. **Brand text shortens.** `Tholos :: Component Type Editor` →
+1. **Two-strip left-pane header is gone; replaced by a full-width 38px top
+   toolbar.** Net vertical real estate gain in the left pane ≈ 98px (old
+   strips removed). Net loss across the app ≈ 38px (new toolbar above
+   `#wrapper`).
+2. **Toolbar spans both panes.** The host application embedding this editor
+   sees a 38px taller chrome above the two-pane layout. This matches the
+   sibling builder's shell pattern; the host already accepts that geometry
+   for builder.
+3. **Brand text shortens.** `Tholos :: Component Type Editor` →
    `Tholos Editor`. The qualifier "Component Type Editor" disappears from the
    visible brand; the tree already makes the scope obvious.
-3. **Version info becomes hover-only.** `$MainAddress`, `$DBSyntax`,
+4. **Brand mark becomes the offsite/Tholos SVG logo.** The raster
+   `favicon.png` stays on disk for the browser tab favicon; the toolbar uses
+   the new `tholos-logo.svg` at 22px inside a 28×28 white pill.
+5. **Version info becomes hover-only.** `$MainAddress`, `$DBSyntax`,
    `$AppVersion`, `$devVersion` move into a Bootstrap 5 tooltip attached to a
    new info icon at the right end of the toolbar. Still inspectable, no
    longer always-visible chrome.
-4. **Tree-pane geometry is no longer offset-based.** The hard-coded `top:
-   100px` offset on `#component_tree_container` is replaced by flex layout.
-   Resizing the splitter and toolbar-height tweaks no longer require keeping
-   two numbers in sync.
-5. **Icon names migrate to FA 7 idiomatic forms.** `fa-refresh` →
+6. **Tree-pane geometry is no longer offset-based.** The hard-coded `top:
+   100px` on `#component_tree_container` is removed; the container fills its
+   pane via `height: 100%`. Resizing no longer requires keeping a magic
+   number in sync with the legacy strip heights.
+7. **Icon names migrate to FA 7 idiomatic forms.** `fa-refresh` →
    `fa-arrows-rotate`; `fa-search` → `fa-magnifying-glass`; `fa-plus-square` →
    `fa-square-plus`. Visual rendering is unchanged — the new names map to the
    same glyphs. Implementation step: verify the icons render correctly after
    the swap during manual browser test.
-6. **Right-pane tab visual is unchanged.** The legacy blue-block
+8. **Right-pane tab visual is unchanged.** The legacy blue-block
    `.nav-tabs .nav-link.active` style remains until sub-project 3 ports the
    underline-style `.pf-tabs` to both panes simultaneously.
 
 ## 7. Acceptance criteria
 
-1. App loads. Left pane shows a 38px dark-gray (`#3a3f44`) toolbar with brand
-   mark + "Tholos Editor" text on the left, search input-group, a flex
-   spacer, then New / Refresh / Info icon buttons on the right.
-2. Pressing Enter in the search input triggers
+1. App loads. A 38px dark-gray (`#3a3f44`) toolbar spans the full window
+   width across the top, above both panes. From left to right: Tholos SVG
+   brand mark in a white pill + "Tholos Editor" text, search input-group,
+   flex spacer, then New / Refresh / Info icon buttons.
+2. Below the toolbar, the existing two-pane resizable layout
+   (`#left_frame` + `#right_frame`) occupies the remaining viewport. The
+   jQuery UI resize handle between panes still works.
+3. Pressing Enter in the search input triggers
    `loadComponentTree(true,'#search_result_tree', …)` — same behavior as
-   today. The "Search results" tab below activates and renders results.
-3. Clicking New still calls `createComponentType('','')`. Clicking Refresh
+   today. The "Search results" tab inside the left pane activates and
+   renders results.
+4. Clicking New still calls `createComponentType('','')`. Clicking Refresh
    still calls `loadComponentTree(true,'#component_tree','')`. The refresh
    icon retains `id="globalLoading"` so AJAX requests still toggle the spin
    animation as they do today.
-4. Hovering the info icon shows a tooltip with three lines: address, DB
+5. Hovering the info icon shows a tooltip with three lines: address, DB
    syntax (bold), app version + dev version (bold).
-5. The component tree (`#component_tree_container`) fills the rest of the
-   left pane below the toolbar. Resizing the splitter horizontally does not
-   distort the layout. No vertical scrollbar appears on the left pane chrome
-   itself — only on the tree container when content overflows.
-6. After the commit, no template, JS, PHP, or CSS file references
+6. The component tree fills its pane below the toolbar. The legacy `top:
+   100px` magic offset is gone.
+7. After the commit, no template, JS, PHP, or CSS file references
    `file_sprite.png`, `.folder`, `.file`, `#portalinfo_container`,
    `#options_container`, or `#x-portalinfo_container`. The PNG file is gone
-   from `assets/images/`.
-7. No JavaScript console errors on load, search, refresh, new-component, or
+   from `assets/images/`; the new `tholos-logo.svg` is present.
+8. No JavaScript console errors on load, search, refresh, new-component, or
    tooltip hover.
-8. Right-pane content (per-component-type tabs and inner tables) renders
+9. Right-pane content (per-component-type tabs and inner tables) renders
    exactly as it does today — no visual diff. The legacy blue-block tab
    active style is intentionally preserved in this sub-project.
 
+**Manual verification target:**
+`https://tholos-editor-docker.offsite-solutions.com:10342/run.php` — the
+auto-reloading dev portal. The local docker compose project lives at
+`/Users/baxi/Work/_docker_images/tholos-editor` and bind-mounts this repo,
+so edits here are live in the running container — no rebuild required.
+Hard-refresh the URL and walk through the acceptance criteria above.
+
 ## 8. Decisions log
 
-- **Toolbar inside the left pane, not full-width.** The editor is consumed
-  by a host application; keeping the toolbar inside the left pane preserves
-  the embedding shape (`main.template` and `#wrapper` geometry untouched).
-  The builder's full-width `.tb-navbar` would have required changing the
-  shell, which is a different conversation with the host owners.
+- **Toolbar full-width across both panes (revised).** First considered
+  scoping the toolbar to the left pane to preserve the host application's
+  embedding shape. Revised after reviewing the visual: the sibling builder
+  app uses a full-width `.tb-navbar` and the host already accepts that
+  geometry, so visual parity beats embedding-shape conservatism. The
+  toolbar now lives in `main.template` above `#wrapper`, exactly matching
+  builder's pattern.
 - **CSS variables on `:root`, not inline hex.** Builder shipped inline hex
   because its redesign was a retrofit; editor is starting clean and benefits
   from one-place tuning. Token names also document intent
@@ -365,3 +408,8 @@ template, `src/TholosEditor/*`, or `vendor/`.
   the app (right-pane property cells, future help icons, etc.) work
   automatically by carrying `data-bs-toggle="tooltip"`. No per-element
   wiring or AJAX-load re-init needed.
+- **SVG brand mark instead of raster favicon.** The Tholos logo exists as
+  an SVG in the builder repo (`offsite_logo_only_v3.svg`) and renders
+  crisply at any size. Copied into editor assets as `tholos-logo.svg`. The
+  raster `favicon.png` is unchanged on disk (still used for the browser tab
+  favicon via `main.template`'s `<link rel="shortcut icon">`).
